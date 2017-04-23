@@ -1,4 +1,4 @@
-<header id="header" role="banner" class="header--<%= @page_name == "home" && "home" || "page" %>">
+<header id="header" role="banner">
   <nav role="navigation" class="navbar">
     <div class="container">
       <div class="navbar-header">
@@ -9,6 +9,9 @@
           <ul class="navbar-nav navbar-nav--left">
             <li class="nav-item-home active">
               <%= link "Home", to: page_path(@conn, :index) %>
+            </li>
+            <li class="nav-item-home active">
+              <%= link "People", to: person_path(@conn, :index) %>
             </li>
           </ul>
           <ul class="navbar-nav navbar-nav--right">
