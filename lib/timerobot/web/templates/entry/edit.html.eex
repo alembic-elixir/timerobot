@@ -1,0 +1,6 @@
+<h2>Edit Entry</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: entry_path(@conn, :update, @entry) %>
+
+<span><%= link "Back", to: entry_path(@conn, :index) %></span>

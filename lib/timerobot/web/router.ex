@@ -17,6 +17,10 @@ defmodule Timerobot.Web.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/client", ClientController
+    resources "/project", ProjectController
+    resources "/person", PersonController
+    resources "/entry", EntryController
   end
 
   # Other scopes may use custom stacks.
