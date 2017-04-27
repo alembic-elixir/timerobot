@@ -39,6 +39,7 @@ defmodule Timerobot.Mixfile do
      {:poison, "~> 3.0"},
      {:timex, "~> 3.0"},
      {:timex_ecto, "~> 3.0"},
+     {:slugger, "~> 0.1"},
      {:cowboy, "~> 1.0"}]
   end
 
