@@ -7,11 +7,6 @@
     <%= @client.name %>
   </li>
 
-  <li>
-    <strong>Slug:</strong>
-    <%= @client.slug %>
-  </li>
-
 </ul>
 
 <span><%= link "Edit", to: client_path(@conn, :edit, @client) %></span>

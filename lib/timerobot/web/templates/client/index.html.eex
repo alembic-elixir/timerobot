@@ -4,7 +4,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Slug</th>
 
       <th></th>
     </tr>
@@ -13,7 +12,6 @@
 <%= for client <- @client do %>
     <tr>
       <td><%= client.name %></td>
-      <td><%= client.slug %></td>
 
       <td class="text-right">
         <span><%= link "Show", to: client_path(@conn, :show, client), class: "btn btn-default btn-xs" %></span>

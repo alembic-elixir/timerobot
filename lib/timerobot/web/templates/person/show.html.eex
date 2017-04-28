@@ -7,11 +7,6 @@
     <%= @person.name %>
   </li>
 
-  <li>
-    <strong>Slug:</strong>
-    <%= @person.slug %>
-  </li>
-
 </ul>
 
 <span><%= link "Edit", to: person_path(@conn, :edit, @person) %></span>

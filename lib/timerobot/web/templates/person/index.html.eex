@@ -4,8 +4,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Slug</th>
-
       <th></th>
     </tr>
   </thead>
@@ -13,7 +11,6 @@
 <%= for person <- @person do %>
     <tr>
       <td><%= person.name %></td>
-      <td><%= person.slug %></td>
 
       <td class="text-right">
         <span><%= link "Show", to: person_path(@conn, :show, person), class: "btn btn-default btn-xs" %></span>
