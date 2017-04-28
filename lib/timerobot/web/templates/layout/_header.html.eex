@@ -15,6 +15,9 @@
           <li class="navlink">
             <%= link "Projects", to: project_path(@conn, :index) %>
           </li>
+          <li class="navlink">
+            <%= link "Entries", to: entry_path(@conn, :index) %>
+          </li>
         </ul>
       </div>
     </div>
