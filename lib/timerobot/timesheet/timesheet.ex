@@ -7,6 +7,9 @@ defmodule Timerobot.Timesheet do
   alias Timerobot.Repo
 
   alias Timerobot.Timesheet.Client
+  alias Timerobot.Timesheet.Project
+  alias Timerobot.Timesheet.Person
+  alias Timerobot.Timesheet.Entry
 
   @doc """
   Returns the list of client.
@@ -50,8 +53,9 @@ defmodule Timerobot.Timesheet do
 
   """
   def create_client(attrs \\ %{}) do
+    attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
     %Client{}
-    |> client_changeset(attrs)
+    |> client_changeset(attrs_with_slug)
     |> Repo.insert()
   end
 
@@ -110,8 +114,6 @@ defmodule Timerobot.Timesheet do
     |> unique_constraint(:slug)
   end
 
-  alias Timerobot.Timesheet.Project
-
   @doc """
   Returns the list of project.
 
@@ -154,8 +156,9 @@ defmodule Timerobot.Timesheet do
 
   """
   def create_project(attrs \\ %{}) do
+    attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
     %Project{}
-    |> project_changeset(attrs)
+    |> project_changeset(attrs_with_slug)
     |> Repo.insert()
   end
 
@@ -214,8 +217,6 @@ defmodule Timerobot.Timesheet do
     |> unique_constraint(:slug)
   end
 
-  alias Timerobot.Timesheet.Person
-
   @doc """
   Returns the list of person.
 
@@ -258,8 +259,9 @@ defmodule Timerobot.Timesheet do
 
   """
   def create_person(attrs \\ %{}) do
+    attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
     %Person{}
-    |> person_changeset(attrs)
+    |> person_changeset(attrs_with_slug)
     |> Repo.insert()
   end
 
@@ -317,8 +319,6 @@ defmodule Timerobot.Timesheet do
     |> unique_constraint(:name)
     |> unique_constraint(:slug)
   end
-
-  alias Timerobot.Timesheet.Entry
 
   @doc """
   Returns the list of entry.
