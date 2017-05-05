@@ -4,7 +4,7 @@
   <strong>Projects:</strong>
   <%= for project <- @client.projects do %>
     <li>
-      <%= project.name %>
+      <%= link(project.name, to: project_path(@conn, :show, project.id)) %>
     </li>
   <% end%>
 </ul>
