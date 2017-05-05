@@ -5,6 +5,22 @@
     </div>
   <% end %>
 
+  <hr>
+
+  <div class="form-group">
+    <%= label f, :person_id, class: "control-label" %>
+    <%= select f, :person_id, @people, prompt: "Select a person",class: "control-label" %>
+    <%= error_tag f, :person_id %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :project_id, class: "control-label" %>
+    <%= select f, :project_id, @projects, prompt: "Select a project", class: "control-label" %>
+    <%= error_tag f, :project_id %>
+  </div>
+
+  <hr>
+
   <div class="form-group">
     <%= label f, :date, class: "control-label" %>
     <%= date_select f, :date, default: {DateTime.utc_now.year, DateTime.utc_now.month, DateTime.utc_now.day}, class: "form-control" %>
@@ -12,7 +28,7 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :hours, class: "control-label" %>
+    <%= label f, :hours_worked, class: "control-label" %>
     <%= number_input f, :hours, class: "form-control" %>
     <%= error_tag f, :hours %>
   </div>
