@@ -9,7 +9,7 @@ defmodule Timerobot.Web.EntryController do
   alias Timerobot.Timesheet.Project
   alias Timerobot.Repo
 
-  def index(conn, _params) do
+  def index(conn, params) do
     entry = Timesheet.list_entry()
     render(conn, "index.html", entry: entry)
   end
@@ -56,12 +56,32 @@ defmodule Timerobot.Web.EntryController do
   end
 
   def edit(conn, %{"id" => id}) do
+    people =
+      Person
+      |> select([p], {p.name, p.id})
+      |> Repo.all
+
+    projects =
+      Project
+      |> select([p], {p.name, p.id})
+      |> Repo.all
+
     entry = Timesheet.get_entry!(id)
     changeset = Timesheet.change_entry(entry)
-    render(conn, "edit.html", entry: entry, changeset: changeset)
+    render(conn, "edit.html", entry: entry, changeset: changeset, people: people, projects: projects)
   end
 
   def update(conn, %{"id" => id, "entry" => entry_params}) do
+    people =
+      Person
+      |> select([p], {p.name, p.id})
+      |> Repo.all
+
+    projects =
+      Project
+      |> select([p], {p.name, p.id})
+      |> Repo.all
+
     entry = Timesheet.get_entry!(id)
 
     case Timesheet.update_entry(entry, entry_params) do
@@ -70,7 +90,7 @@ defmodule Timerobot.Web.EntryController do
         |> put_flash(:info, "Entry updated successfully.")
         |> redirect(to: entry_path(conn, :show, entry))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", entry: entry, changeset: changeset)
+        render(conn, "edit.html", entry: entry, changeset: changeset, people: people, projects: projects)
     end
   end
 

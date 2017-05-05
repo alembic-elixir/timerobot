@@ -3,6 +3,16 @@
 <ul>
 
   <li>
+    <strong>Project:</strong>
+    <%= @entry.project.name %>
+  </li>
+
+  <li>
+    <strong>Person:</strong>
+    <%= @entry.person.name %>
+  </li>
+
+  <li>
     <strong>Date:</strong>
     <%= @entry.date %>
   </li>

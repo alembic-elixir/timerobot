@@ -3,6 +3,8 @@
 <table class="table">
   <thead>
     <tr>
+      <th>Project</th>
+      <th>Person</th>
       <th>Date</th>
       <th>Hours</th>
 
@@ -12,11 +14,12 @@
   <tbody>
 <%= for entry <- @entry do %>
     <tr>
+      <td><%= entry.project.name %></td>
+      <td><%= entry.person.name %></td>
       <td><%= entry.date %></td>
       <td><%= entry.hours %></td>
 
       <td class="text-right">
-        <span><%= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-default btn-xs" %></span>
         <span><%= link "Edit", to: entry_path(@conn, :edit, entry), class: "btn btn-default btn-xs" %></span>
         <span><%= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
       </td>

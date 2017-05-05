@@ -338,7 +338,9 @@ defmodule Timerobot.Timesheet do
 
   """
   def list_entry do
-    Repo.all(Entry)
+    Entry
+    |> Repo.all
+    |> Repo.preload([:project, :person])
   end
 
   @doc """
@@ -355,7 +357,11 @@ defmodule Timerobot.Timesheet do
       ** (Ecto.NoResultsError)
 
   """
-  def get_entry!(id), do: Repo.get!(Entry, id)
+  def get_entry!(id) do
+    Entry
+    |> Repo.get!(id)
+    |> Repo.preload([:project, :person])
+  end
 
   @doc """
   Creates a entry.
@@ -424,7 +430,7 @@ defmodule Timerobot.Timesheet do
 
   defp entry_changeset(%Entry{} = entry, attrs) do
     entry
-    |> cast(attrs, [:date, :hours])
-    |> validate_required([:date, :hours])
+    |> cast(attrs, [:date, :hours, :person_id, :project_id])
+    |> validate_required([:date, :hours, :person_id, :project_id])
   end
 end
