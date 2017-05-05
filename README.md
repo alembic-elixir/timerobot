@@ -23,8 +23,9 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 - [x] Create a navigation header
 - [x] Auto-generate slugs (no need to display slugs)
+- [x] Create a way of adding a Project to a Client
+- [x] Display all projects when viewing a client
 - [] Create a drop down menu selection for People/Projects in Times
-- [] Create a way of adding a Project to a Client
 - [] Display the client when selecting a Project in Times
 - [] Create report generation
 - [] Create user login and authentication

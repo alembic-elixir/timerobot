@@ -7,7 +7,7 @@ defmodule Timerobot.Timesheet.Client do
     field :name, :string
     field :slug, :string
 
-    has_many :project, Project
+    has_many :projects, Project
     timestamps()
   end
 end

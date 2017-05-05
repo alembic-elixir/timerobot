@@ -38,7 +38,11 @@ defmodule Timerobot.Timesheet do
       ** (Ecto.NoResultsError)
 
   """
-  def get_client!(id), do: Repo.get!(Client, id)
+  def get_client!(id) do
+    Client
+    |> Repo.get!(id)
+    |> Repo.preload([:projects])
+  end
 
   @doc """
   Creates a client.

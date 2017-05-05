@@ -2,10 +2,11 @@
 
 <ul>
   <strong>Projects:</strong>
-  <li>
-
-  </li>
-
+  <%= for project <- @client.projects do %>
+    <li>
+      <%= project.name %>
+    </li>
+  <% end%>
 </ul>
 
 <span><%= link "Edit", to: client_path(@conn, :edit, @client) %></span>
