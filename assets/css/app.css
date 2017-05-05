@@ -17,3 +17,9 @@
     background-color: #ddd;
     color: black;
 }
+
+.robot {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
