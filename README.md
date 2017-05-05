@@ -22,7 +22,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 ## Todo
 
 - [x] Create a navigation header
-- [] Auto-generate slugs (no need to display slugs)
+- [x] Auto-generate slugs (no need to display slugs)
 - [] Create a drop down menu selection for People/Projects in Times
 - [] Create a way of adding a Project to a Client
 - [] Display the client when selecting a Project in Times

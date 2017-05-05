@@ -141,7 +141,10 @@ defmodule Timerobot.Timesheet do
       ** (Ecto.NoResultsError)
 
   """
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project!(id) do
+    Repo.get!(Project, id)
+    |> Repo.preload([:client])
+  end
 
   @doc """
   Creates a project.
@@ -156,7 +159,7 @@ defmodule Timerobot.Timesheet do
 
   """
   def create_project(attrs \\ %{}) do
-    attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
+    IO.inspect attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
     %Project{}
     |> project_changeset(attrs_with_slug)
     |> Repo.insert()
@@ -211,8 +214,8 @@ defmodule Timerobot.Timesheet do
 
   defp project_changeset(%Project{} = project, attrs) do
     project
-    |> cast(attrs, [:name, :slug])
-    |> validate_required([:name, :slug])
+    |> cast(attrs, [:name, :slug, :client_id])
+    |> validate_required([:name, :slug, :client_id])
     |> unique_constraint(:name)
     |> unique_constraint(:slug)
   end

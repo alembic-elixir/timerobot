@@ -1,32 +1,47 @@
 defmodule Timerobot.Web.ProjectController do
   use Timerobot.Web, :controller
 
+  import Ecto
+  import Ecto.Query
+
   alias Timerobot.Timesheet
+  alias Timerobot.Timesheet.Client
+  alias Timerobot.Repo
 
   def index(conn, _params) do
     project = Timesheet.list_project()
     render(conn, "index.html", project: project)
   end
 
-  def new(conn, _params) do
+  def new(conn, params) do
+    clients =
+      Client
+      |> select([c], {c.name, c.id})
+      |> Repo.all
+
     changeset = Timesheet.change_project(%Timerobot.Timesheet.Project{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, clients: clients)
   end
 
   def create(conn, %{"project" => project_params}) do
+    clients =
+      Client
+      |> select([c], {c.name, c.id})
+      |> Repo.all
+
     case Timesheet.create_project(project_params) do
       {:ok, project} ->
         conn
         |> put_flash(:info, "Project created successfully.")
         |> redirect(to: project_path(conn, :show, project))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, clients: clients)
     end
   end
 
   def show(conn, %{"id" => id}) do
     project = Timesheet.get_project!(id)
-    render(conn, "show.html", project: project)
+    render(conn, "show.html", project: project  )
   end
 
   def edit(conn, %{"id" => id}) do
