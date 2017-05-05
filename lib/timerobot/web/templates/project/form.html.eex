@@ -13,7 +13,7 @@
 
   <div class="form-group">
     <%= label f, :client_id, class: "control-label" %>
-    <%= select f, :client_id, @clients, class: "control-label" %>
+    <%= select f, :client_id, @clients, prompt: "Select a Client",class: "control-label" %>
     <%= error_tag f, :client_id %>
   </div>
 
