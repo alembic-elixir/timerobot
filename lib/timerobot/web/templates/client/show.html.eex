@@ -1,10 +1,9 @@
-<h2>Show Client</h2>
+<h2><%= @client.name %></h2>
 
 <ul>
-
+  <strong>Projects:</strong>
   <li>
-    <strong>Name:</strong>
-    <%= @client.name %>
+
   </li>
 
 </ul>
