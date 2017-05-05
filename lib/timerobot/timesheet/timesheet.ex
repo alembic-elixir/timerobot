@@ -142,7 +142,8 @@ defmodule Timerobot.Timesheet do
 
   """
   def get_project!(id) do
-    Repo.get!(Project, id)
+    Project
+    |> Repo.get!(id)
     |> Repo.preload([:client])
   end
 
@@ -159,7 +160,7 @@ defmodule Timerobot.Timesheet do
 
   """
   def create_project(attrs \\ %{}) do
-    IO.inspect attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
+    attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
     %Project{}
     |> project_changeset(attrs_with_slug)
     |> Repo.insert()
