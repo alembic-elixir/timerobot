@@ -128,7 +128,9 @@ defmodule Timerobot.Timesheet do
 
   """
   def list_project do
-    Repo.all(Project)
+    Project
+    |> Repo.all
+    |> Repo.preload([:client, :entries])
   end
 
   @doc """
@@ -148,7 +150,7 @@ defmodule Timerobot.Timesheet do
   def get_project!(id) do
     Project
     |> Repo.get!(id)
-    |> Repo.preload([:client])
+    |> Repo.preload([:client, :entries])
   end
 
   @doc """

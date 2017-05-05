@@ -6,9 +6,11 @@ defmodule Timerobot.Web.ProjectController do
 
   alias Timerobot.Timesheet
   alias Timerobot.Timesheet.Client
+  alias Timerobot.Timesheet.Entry
+  alias Timerobot.Timesheet.Person
   alias Timerobot.Repo
 
-  def index(conn, _params) do
+  def index(conn, params) do
     project = Timesheet.list_project()
     render(conn, "index.html", project: project)
   end

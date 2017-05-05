@@ -9,7 +9,7 @@ defmodule Timerobot.Timesheet.Project do
     field :slug, :string
 
     belongs_to :client, Client
-    has_many :entry, Entry
+    has_many :entries, Entry
 
     timestamps()
   end
