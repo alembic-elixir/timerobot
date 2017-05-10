@@ -1,14 +1,8 @@
 defmodule Timerobot.Web.ProjectController do
   use Timerobot.Web, :controller
 
-  import Ecto
-  import Ecto.Query
-
   alias Timerobot.Timesheet
-  alias Timerobot.Timesheet.Client
-  alias Timerobot.Timesheet.Entry
-  alias Timerobot.Timesheet.Person
-  alias Timerobot.Repo
+  alias Timerobot.Timesheet.{Client, Entry, Person, Project}
 
   def index(conn, params) do
     project = Timesheet.list_project()
@@ -16,40 +10,31 @@ defmodule Timerobot.Web.ProjectController do
   end
 
   def new(conn, params) do
-    clients =
-      Client
-      |> select([c], {c.name, c.id})
-      |> Repo.all
-
-    changeset = Timesheet.change_project(%Timerobot.Timesheet.Project{})
-    render(conn, "new.html", changeset: changeset, clients: clients)
+    render conn, "new.html",
+      changeset: Timesheet.change_project(%Project{}),
+      clients: Timesheet.all_clients_dropdown
   end
 
   def create(conn, %{"project" => project_params}) do
-    clients =
-      Client
-      |> select([c], {c.name, c.id})
-      |> Repo.all
-
     case Timesheet.create_project(project_params) do
       {:ok, project} ->
         conn
         |> put_flash(:info, "Project created successfully.")
         |> redirect(to: project_path(conn, :show, project))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, clients: clients)
+        render(conn, "new.html", changeset: changeset, clients: Timesheet.all_clients_dropdown)
     end
   end
 
   def show(conn, %{"id" => id}) do
     project = Timesheet.get_project!(id)
-    render(conn, "show.html", project: project  )
+    render(conn, "show.html", project: project)
   end
 
   def edit(conn, %{"id" => id}) do
     project = Timesheet.get_project!(id)
     changeset = Timesheet.change_project(project)
-    render(conn, "edit.html", project: project, changeset: changeset)
+    render(conn, "edit.html", project: project, changeset: changeset, clients: Timesheet.all_clients_dropdown)
   end
 
   def update(conn, %{"id" => id, "project" => project_params}) do

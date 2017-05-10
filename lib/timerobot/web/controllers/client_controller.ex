@@ -4,8 +4,7 @@ defmodule Timerobot.Web.ClientController do
   alias Timerobot.Timesheet
 
   def index(conn, _params) do
-    client = Timesheet.list_client()
-    render(conn, "index.html", client: client)
+    render(conn, "index.html", clients: Timesheet.all_clients)
   end
 
   def new(conn, _params) do

@@ -1,6 +1,12 @@
 <h2>Edit Project</h2>
 
-<%= render "form.html", changeset: @changeset,
-                        action: project_path(@conn, :update, @project) %>
+<%=
+  render "form.html",
+    changeset: @changeset,
+    clients: @clients,
+    action: project_path(@conn, :update, @project)
+%>
 
-<span><%= link "Back", to: project_path(@conn, :index) %></span>
+<span>
+  <%= link "Back", to: project_path(@conn, :index) %>
+</span>

@@ -1,14 +1,27 @@
 <h2><%= @project.name %></h2>
 
-<ul>
-  <strong>Client:</strong>
-  <%= @project.client.name %>
-  <%= for entry <- @project.entries do %>
-    <li>
-      Date worked: <%= link(entry.date, to: entry_path(@conn, :show, entry.id)) %> Hours: <%= entry.hours %>
-    </li>
-  <% end%>
-</ul>
+<table class="table table-striped">
+  <caption>
+    <strong>Client:</strong>
+    <%= @project.client.name %>
+  </caption>
+  <thead>
+    <tr>
+      <th>Person</th>
+      <th>Date</th>
+      <th>Hours</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for entry <- @project.entries do %>
+      <tr>
+        <td><%= link(entry.person.name, to: person_path(@conn, :show, entry.person.id)) %></td>
+        <td><%= link(entry.date, to: entry_path(@conn, :show, entry.id)) %></td>
+        <td><%= entry.hours %></td>
+      </tr>
+    <% end%>
+  </tbody>
+</table>
 
 <span><%= link "Edit", to: project_path(@conn, :edit, @project) %></span>
 <span><%= link "Back", to: project_path(@conn, :index) %></span>

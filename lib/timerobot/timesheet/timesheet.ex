@@ -12,16 +12,22 @@ defmodule Timerobot.Timesheet do
   alias Timerobot.Timesheet.Entry
 
   @doc """
-  Returns the list of client.
+  Returns the list of clients.
 
   ## Examples
 
-      iex> list_client()
+      iex> list_clients()
       [%Client{}, ...]
 
   """
-  def list_client do
+  def all_clients do
     Repo.all(Client)
+  end
+
+  def all_clients_dropdown do
+    Client
+    |> select([c], {c.name, c.id})
+    |> Repo.all
   end
 
   @doc """
@@ -150,7 +156,7 @@ defmodule Timerobot.Timesheet do
   def get_project!(id) do
     Project
     |> Repo.get!(id)
-    |> Repo.preload([:client, :entries])
+    |> Repo.preload([:client, entries: [:person]])
   end
 
   @doc """
