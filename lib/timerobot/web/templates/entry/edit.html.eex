@@ -5,9 +5,6 @@
     changeset: @changeset,
     people: @people,
     projects: @projects,
-    action: entry_path(@conn, :update, @entry)
+    action: entry_path(@conn, :update, @entry),
+    entry_cancel_path: entry_path(@conn, :index)
 %>
-
-<span>
-  <%= link "Back", to: entry_path(@conn, :index) %>
-</span>

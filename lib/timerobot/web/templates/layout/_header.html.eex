@@ -1,25 +1,21 @@
 <header id="header" role="banner">
   <nav role="navigation" class="navbar navbar-inverse">
-    <div class="container">
-      <div id="site-nav" >
-        <ul class="nav nav-pills">
-          <li class="navlink">
-            <%= link "Home", to: page_path(@conn, :index)%>
-          </li>
-          <li class="navlink">
-            <%= link "People", to: person_path(@conn, :index) %>
-          </li>
-          <li class="navlink">
-            <%= link "Clients", to: client_path(@conn, :index) %>
-          </li>
-          <li class="navlink">
-            <%= link "Projects", to: project_path(@conn, :index) %>
-          </li>
-          <li class="navlink">
-            <%= link "Entries", to: entry_path(@conn, :index) %>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <ul class="nav nav-pills">
+      <li class="navlink">
+        <%= link "Home", to: page_path(@conn, :index)%>
+      </li>
+      <li class="navlink">
+        <%= link "People", to: person_path(@conn, :index) %>
+      </li>
+      <li class="navlink">
+        <%= link "Clients", to: client_path(@conn, :index) %>
+      </li>
+      <li class="navlink">
+        <%= link "Projects", to: project_path(@conn, :index) %>
+      </li>
+      <li class="navlink">
+        <%= link "Entries", to: entry_path(@conn, :index) %>
+      </li>
+    </ul>
   </nav>
 </header>

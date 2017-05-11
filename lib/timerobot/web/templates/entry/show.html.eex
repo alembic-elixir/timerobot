@@ -1,7 +1,12 @@
-<h2>Show Entry</h2>
+<%= link {:safe, "&larr; Back to Entries"}, to: entry_path(@conn, :index) %>
+
+
+<h2>
+  <%= @entry.project.name %>
+  <%= link "Edit", to: entry_path(@conn, :edit, @entry) %>
+</h2>
 
 <ul>
-
   <li>
     <strong>Project:</strong>
     <%= @entry.project.name %>
@@ -21,8 +26,4 @@
     <strong>Hours:</strong>
     <%= @entry.hours %>
   </li>
-
 </ul>
-
-<span><%= link "Edit", to: entry_path(@conn, :edit, @entry) %></span>
-<span><%= link "Back", to: entry_path(@conn, :index) %></span>

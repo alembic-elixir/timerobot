@@ -1,4 +1,9 @@
-<h2><%= @client.name %></h2>
+<%= link {:safe, "&larr; Back to Clients"}, to: client_path(@conn, :index) %>
+
+<h2>
+  <%= @client.name %>
+  <%= link "Edit", to: client_path(@conn, :edit, @client), class: "btn btn-success"  %>
+</h2>
 
 <ul>
   <strong>Projects:</strong>
@@ -8,6 +13,3 @@
     </li>
   <% end%>
 </ul>
-
-<span><%= link "Edit", to: client_path(@conn, :edit, @client) %></span>
-<span><%= link "Back", to: client_path(@conn, :index) %></span>

@@ -1,3 +1,5 @@
+<%= link "New Person", to: person_path(@conn, :new), class: "btn btn-success" %>
+
 <h2>People</h2>
 
 <table class="table table-striped">
@@ -18,5 +20,3 @@
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Person", to: person_path(@conn, :new) %></span>
