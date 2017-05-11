@@ -3,8 +3,8 @@ defmodule Timerobot.Web.ClientControllerTest do
 
   alias Timerobot.Timesheet
 
-  @create_attrs %{name: "some name", slug: "some slug"}
-  @update_attrs %{name: "some updated name", slug: "some updated slug"}
+  @create_attrs %{"name" => "some name"}
+  @update_attrs %{name: "some updated name", slug: "some-updated-name"}
   @invalid_attrs %{name: nil, slug: nil}
 
   def fixture(:client) do
@@ -14,7 +14,7 @@ defmodule Timerobot.Web.ClientControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, client_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing Client"
+    assert html_response(conn, 200) =~ "Clients"
   end
 
   test "renders form for new client", %{conn: conn} do
@@ -29,7 +29,7 @@ defmodule Timerobot.Web.ClientControllerTest do
     assert redirected_to(conn) == client_path(conn, :show, id)
 
     conn = get conn, client_path(conn, :show, id)
-    assert html_response(conn, 200) =~ "Show Client"
+    assert html_response(conn, 200) =~ "some name"
   end
 
   test "does not create client and renders errors when data is invalid", %{conn: conn} do

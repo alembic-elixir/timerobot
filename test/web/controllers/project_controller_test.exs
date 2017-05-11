@@ -3,18 +3,25 @@ defmodule Timerobot.Web.ProjectControllerTest do
 
   alias Timerobot.Timesheet
 
-  @create_attrs %{name: "some name", slug: "some slug"}
-  @update_attrs %{name: "some updated name", slug: "some updated slug"}
-  @invalid_attrs %{name: nil, slug: nil}
+  @create_attrs %{"name" => "some name", "person_id" => 1, "project_id" => 1}
+  @update_attrs %{"name" => "some updated name", "person_id" => 1, "project_id" => 1}
+  @invalid_attrs %{"name" => nil, "person_id" => nil, "project_id" => nil}
+
+  setup do
+    {:ok, _client} = Timesheet.create_client(%{"name" => "client"})
+    :ok
+  end
 
   def fixture(:project) do
-    {:ok, project} = Timesheet.create_project(@create_attrs)
+    {:ok, project} = @create_attrs
+    |>Map.put("client_id", hd(Timesheet.all_clients).id)
+    |> Timesheet.create_project
     project
   end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, project_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing Project"
+    assert html_response(conn, 200) =~ "Projects"
   end
 
   test "renders form for new project", %{conn: conn} do
@@ -23,13 +30,17 @@ defmodule Timerobot.Web.ProjectControllerTest do
   end
 
   test "creates project and redirects to show when data is valid", %{conn: conn} do
-    conn = post conn, project_path(conn, :create), project: @create_attrs
+    create_attrs =
+      @create_attrs
+      |> Map.put(:client_id, hd(Timesheet.all_clients).id)
+
+    conn = post conn, project_path(conn, :create), project: create_attrs
 
     assert %{id: id} = redirected_params(conn)
     assert redirected_to(conn) == project_path(conn, :show, id)
 
     conn = get conn, project_path(conn, :show, id)
-    assert html_response(conn, 200) =~ "Show Project"
+    assert html_response(conn, 200) =~ "some name"
   end
 
   test "does not create project and renders errors when data is invalid", %{conn: conn} do

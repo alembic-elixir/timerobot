@@ -4,29 +4,29 @@ defmodule Timerobot.TimesheetTest do
   alias Timerobot.Timesheet
   alias Timerobot.Timesheet.Client
 
-  @create_attrs %{name: "some name", slug: "some slug"}
-  @update_attrs %{name: "some updated name", slug: "some updated slug"}
-  @invalid_attrs %{name: nil, slug: nil}
+  @create_attrs %{"name" => "some name"}
+  @update_attrs %{"name" => "some updated name", "slug" => "some-updated-name"}
+  @invalid_attrs %{"name" => nil}
 
   def fixture(:client, attrs \\ @create_attrs) do
     {:ok, client} = Timesheet.create_client(attrs)
     client
   end
 
-  test "list_client/1 returns all client" do
+  test "all_clients/1 returns all client" do
     client = fixture(:client)
-    assert Timesheet.list_client() == [client]
+    assert Timesheet.all_clients() == [client]
   end
 
   test "get_client! returns the client with given id" do
     client = fixture(:client)
-    assert Timesheet.get_client!(client.id) == client
+    assert Timesheet.get_client!(client.id).id == client.id
   end
 
   test "create_client/1 with valid data creates a client" do
     assert {:ok, %Client{} = client} = Timesheet.create_client(@create_attrs)
     assert client.name == "some name"
-    assert client.slug == "some slug"
+    assert client.slug == "some-name"
   end
 
   test "create_client/1 with invalid data returns error changeset" do
@@ -38,13 +38,13 @@ defmodule Timerobot.TimesheetTest do
     assert {:ok, client} = Timesheet.update_client(client, @update_attrs)
     assert %Client{} = client
     assert client.name == "some updated name"
-    assert client.slug == "some updated slug"
+    assert client.slug == "some-updated-name"
   end
 
   test "update_client/2 with invalid data returns error changeset" do
     client = fixture(:client)
     assert {:error, %Ecto.Changeset{}} = Timesheet.update_client(client, @invalid_attrs)
-    assert client == Timesheet.get_client!(client.id)
+    assert client.id == Timesheet.get_client!(client.id).id
   end
 
   test "delete_client/1 deletes the client" do

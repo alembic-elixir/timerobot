@@ -5,7 +5,7 @@ defmodule Timerobot.Web.ProjectController do
   alias Timerobot.Timesheet.Project
 
   def index(conn, _params) do
-    project = Timesheet.list_project()
+    project = Timesheet.all_projects()
     render conn, "index.html",
       project: project
   end
@@ -17,6 +17,7 @@ defmodule Timerobot.Web.ProjectController do
   end
 
   def create(conn, %{"project" => project_params}) do
+
     case Timesheet.create_project(project_params) do
       {:ok, project} ->
         conn
@@ -55,7 +56,8 @@ defmodule Timerobot.Web.ProjectController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render conn, "edit.html",
           project: project,
-          changeset: changeset
+          changeset: changeset,
+          clients: Timesheet.all_clients_dropdown
     end
   end
 

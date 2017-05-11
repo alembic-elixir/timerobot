@@ -3,7 +3,7 @@ defmodule Timerobot.Web.PersonControllerTest do
 
   alias Timerobot.Timesheet
 
-  @create_attrs %{name: "some name", slug: "some slug"}
+  @create_attrs %{"name" => "some name"}
   @update_attrs %{name: "some updated name", slug: "some updated slug"}
   @invalid_attrs %{name: nil, slug: nil}
 
@@ -14,7 +14,7 @@ defmodule Timerobot.Web.PersonControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, person_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing Person"
+    assert html_response(conn, 200) =~ "People"
   end
 
   test "renders form for new person", %{conn: conn} do

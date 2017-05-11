@@ -133,7 +133,7 @@ defmodule Timerobot.Timesheet do
       [%Project{}, ...]
 
   """
-  def list_project do
+  def all_projects do
     Project
     |> Repo.all
     |> Repo.preload([:client, :entries])

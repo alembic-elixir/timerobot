@@ -5,16 +5,26 @@ defmodule Timerobot.Web.EntryControllerTest do
 
   @create_attrs %{date: ~D[2010-04-17], hours: 42}
   @update_attrs %{date: ~D[2011-05-18], hours: 43}
-  @invalid_attrs %{date: nil, hours: nil}
+  @invalid_attrs %{date: nil, hours: nil, person_id: nil, project_id: nil}
+
+  setup do
+    {:ok, _person} = Timesheet.create_person(%{"name" => "a"})
+    {:ok, client} = Timesheet.create_client(%{"name" => "a"})
+    {:ok, _project} = Timesheet.create_project(%{"name" => "a", "client_id" => client.id})
+    :ok
+  end
 
   def fixture(:entry) do
-    {:ok, entry} = Timesheet.create_entry(@create_attrs)
+    {:ok, entry} = @create_attrs
+    |> Map.put(:person_id, hd(Timesheet.list_person).id)
+    |> Map.put(:project_id, hd(Timesheet.all_projects).id)
+    |> Timesheet.create_entry
     entry
   end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, entry_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing Entry"
+    assert html_response(conn, 200) =~ "Entries"
   end
 
   test "renders form for new entry", %{conn: conn} do
@@ -23,7 +33,12 @@ defmodule Timerobot.Web.EntryControllerTest do
   end
 
   test "creates entry and redirects to show when data is valid", %{conn: conn} do
-    conn = post conn, entry_path(conn, :create), entry: @create_attrs
+    create_attrs =
+      @create_attrs
+      |> Map.put(:person_id, hd(Timesheet.list_person).id)
+      |> Map.put(:project_id, hd(Timesheet.all_projects).id)
+
+    conn = post conn, entry_path(conn, :create), entry: create_attrs
 
     assert %{id: id} = redirected_params(conn)
     assert redirected_to(conn) == entry_path(conn, :show, id)

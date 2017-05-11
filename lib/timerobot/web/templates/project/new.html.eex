@@ -7,4 +7,6 @@
     action: project_path(@conn, :create)
 %>
 
-<span><%= link "Back", to: project_path(@conn, :index) %></span>
+<span>
+  <%= link "Back", to: project_path(@conn, :index) %>
+</span>
