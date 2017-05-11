@@ -139,6 +139,12 @@ defmodule Timerobot.Timesheet do
     |> Repo.preload([:client, :entries])
   end
 
+  def all_projects_dropdown do
+    Project
+    |> select([p], {p.name, p.id})
+    |> Repo.all
+  end
+
   @doc """
   Gets a single project.
 
@@ -244,6 +250,12 @@ defmodule Timerobot.Timesheet do
   """
   def list_person do
     Repo.all(Person)
+  end
+
+  def all_people_dropdown do
+    Person
+    |> select([p], {p.name, p.id})
+    |> Repo.all
   end
 
   @doc """
