@@ -1,6 +1,6 @@
-<h2>Listing Person</h2>
+<h2>People</h2>
 
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>

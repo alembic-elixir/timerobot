@@ -1,8 +1,8 @@
 <header id="header" role="banner">
-  <nav role="navigation" class="navbar">
+  <nav role="navigation" class="navbar navbar-inverse">
     <div class="container">
-      <div id="site-nav" class="topnav">
-        <ul>
+      <div id="site-nav" >
+        <ul class="nav nav-pills">
           <li class="navlink">
             <%= link "Home", to: page_path(@conn, :index)%>
           </li>
