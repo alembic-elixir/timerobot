@@ -5,12 +5,14 @@ defmodule Timerobot.Web.PersonController do
 
   def index(conn, _params) do
     person = Timesheet.list_person()
-    render(conn, "index.html", person: person)
+    render conn, "index.html",
+      person: person
   end
 
   def new(conn, _params) do
     changeset = Timesheet.change_person(%Timerobot.Timesheet.Person{})
-    render(conn, "new.html", changeset: changeset)
+    render conn, "new.html",
+      changeset: changeset
   end
 
   def create(conn, %{"person" => person_params}) do
@@ -20,19 +22,23 @@ defmodule Timerobot.Web.PersonController do
         |> put_flash(:info, "Person created successfully.")
         |> redirect(to: person_path(conn, :show, person))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render conn, "new.html",
+          changeset: changeset
     end
   end
 
   def show(conn, %{"id" => id}) do
     person = Timesheet.get_person!(id)
-    render(conn, "show.html", person: person)
+    render conn, "show.html",
+      person: person
   end
 
   def edit(conn, %{"id" => id}) do
     person = Timesheet.get_person!(id)
     changeset = Timesheet.change_person(person)
-    render(conn, "edit.html", person: person, changeset: changeset)
+    render conn, "edit.html",
+      person: person,
+      changeset: changeset
   end
 
   def update(conn, %{"id" => id, "person" => person_params}) do
@@ -44,7 +50,9 @@ defmodule Timerobot.Web.PersonController do
         |> put_flash(:info, "Person updated successfully.")
         |> redirect(to: person_path(conn, :show, person))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", person: person, changeset: changeset)
+        render conn, "edit.html",
+          person: person,
+          changeset: changeset
     end
   end
 

@@ -6,7 +6,8 @@ defmodule Timerobot.Web.EntryController do
 
   def index(conn, params) do
     entry = Timesheet.list_entry()
-    render(conn, "index.html", entry: entry)
+    render conn, "index.html",
+      entry: entry
   end
 
   def new(conn, params) do
@@ -36,7 +37,8 @@ defmodule Timerobot.Web.EntryController do
 
   def show(conn, %{"id" => id}) do
     entry = Timesheet.get_entry!(id)
-    render(conn, "show.html", entry: entry)
+    render conn, "show.html",
+      entry: entry
   end
 
   def edit(conn, %{"id" => id}) do

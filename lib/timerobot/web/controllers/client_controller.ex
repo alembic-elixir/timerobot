@@ -4,12 +4,14 @@ defmodule Timerobot.Web.ClientController do
   alias Timerobot.Timesheet
 
   def index(conn, _params) do
-    render(conn, "index.html", clients: Timesheet.all_clients)
+    render conn, "index.html",
+      clients: Timesheet.all_clients
   end
 
   def new(conn, _params) do
     changeset = Timesheet.change_client(%Timerobot.Timesheet.Client{})
-    render(conn, "new.html", changeset: changeset)
+    render conn, "new.html",
+      changeset: changeset
   end
 
   def create(conn, %{"client" => client_params}) do
@@ -19,19 +21,23 @@ defmodule Timerobot.Web.ClientController do
         |> put_flash(:info, "Client created successfully.")
         |> redirect(to: client_path(conn, :show, client))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render conn, "new.html",
+          changeset: changeset
     end
   end
 
   def show(conn, %{"id" => id}) do
     client = Timesheet.get_client!(id)
-    render(conn, "show.html", client: client)
+    render conn, "show.html",
+      client: client
   end
 
   def edit(conn, %{"id" => id}) do
     client = Timesheet.get_client!(id)
     changeset = Timesheet.change_client(client)
-    render(conn, "edit.html", client: client, changeset: changeset)
+    render conn, "edit.html",
+      client: client,
+      changeset: changeset
   end
 
   def update(conn, %{"id" => id, "client" => client_params}) do
@@ -43,7 +49,9 @@ defmodule Timerobot.Web.ClientController do
         |> put_flash(:info, "Client updated successfully.")
         |> redirect(to: client_path(conn, :show, client))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", client: client, changeset: changeset)
+        render conn, "edit.html",
+          client: client,
+          changeset: changeset
     end
   end
 

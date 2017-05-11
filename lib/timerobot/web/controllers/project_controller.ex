@@ -6,7 +6,8 @@ defmodule Timerobot.Web.ProjectController do
 
   def index(conn, params) do
     project = Timesheet.list_project()
-    render(conn, "index.html", project: project)
+    render conn, "index.html",
+      project: project
   end
 
   def new(conn, params) do
@@ -22,19 +23,25 @@ defmodule Timerobot.Web.ProjectController do
         |> put_flash(:info, "Project created successfully.")
         |> redirect(to: project_path(conn, :show, project))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, clients: Timesheet.all_clients_dropdown)
+        render conn, "new.html",
+          changeset: changeset,
+          clients: Timesheet.all_clients_dropdown
     end
   end
 
   def show(conn, %{"id" => id}) do
     project = Timesheet.get_project!(id)
-    render(conn, "show.html", project: project)
+    render conn, "show.html",
+      project: project
   end
 
   def edit(conn, %{"id" => id}) do
     project = Timesheet.get_project!(id)
     changeset = Timesheet.change_project(project)
-    render(conn, "edit.html", project: project, changeset: changeset, clients: Timesheet.all_clients_dropdown)
+    render conn, "edit.html",
+      project: project,
+      changeset: changeset,
+      clients: Timesheet.all_clients_dropdown
   end
 
   def update(conn, %{"id" => id, "project" => project_params}) do
@@ -46,7 +53,9 @@ defmodule Timerobot.Web.ProjectController do
         |> put_flash(:info, "Project updated successfully.")
         |> redirect(to: project_path(conn, :show, project))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", project: project, changeset: changeset)
+        render conn, "edit.html",
+          project: project,
+          changeset: changeset
     end
   end
 
