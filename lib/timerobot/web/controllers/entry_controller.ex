@@ -2,15 +2,14 @@ defmodule Timerobot.Web.EntryController do
   use Timerobot.Web, :controller
 
   alias Timerobot.Timesheet
-  alias Timerobot.Timesheet.{Person, Project}
 
-  def index(conn, params) do
+  def index(conn, _params) do
     entry = Timesheet.list_entry()
     render conn, "index.html",
       entry: entry
   end
 
-  def new(conn, params) do
+  def new(conn, _params) do
 
     changeset = Timesheet.change_entry(%Timerobot.Timesheet.Entry{})
 

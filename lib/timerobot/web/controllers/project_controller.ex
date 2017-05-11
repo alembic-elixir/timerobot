@@ -2,15 +2,15 @@ defmodule Timerobot.Web.ProjectController do
   use Timerobot.Web, :controller
 
   alias Timerobot.Timesheet
-  alias Timerobot.Timesheet.{Client, Entry, Person, Project}
+  alias Timerobot.Timesheet.Project
 
-  def index(conn, params) do
+  def index(conn, _params) do
     project = Timesheet.list_project()
     render conn, "index.html",
       project: project
   end
 
-  def new(conn, params) do
+  def new(conn, _params) do
     render conn, "new.html",
       changeset: Timesheet.change_project(%Project{}),
       clients: Timesheet.all_clients_dropdown
