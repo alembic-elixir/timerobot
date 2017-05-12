@@ -40,6 +40,7 @@ defmodule Timerobot.Mixfile do
      {:timex, "~> 3.0"},
      {:timex_ecto, "~> 3.0"},
      {:slugger, "~> 0.1"},
+     {:basic_auth, "~> 2.1"},
      {:cowboy, "~> 1.0"}]
   end
 

@@ -13,8 +13,13 @@ defmodule Timerobot.Web.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :admin do
+    plug BasicAuth, use_config: {:timerobot, :basic_auth}
+  end
+
   scope "/", Timerobot.Web do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
+    pipe_through :admin
 
     get "/", PageController, :index
     resources "/clients", ClientController
@@ -22,9 +27,4 @@ defmodule Timerobot.Web.Router do
     resources "/people", PersonController
     resources "/times", EntryController
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Timerobot.Web do
-  #   pipe_through :api
-  # end
 end

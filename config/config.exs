@@ -17,6 +17,13 @@ config :timerobot, Timerobot.Web.Endpoint,
   pubsub: [name: Timerobot.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+# Configure a rudimentary authorisation
+config :timerobot, basic_auth: [
+  username: "admin",
+  password: System.get_env("ADMIN_PASSWORD") || "admin",
+  realm: "Admin"
+]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
