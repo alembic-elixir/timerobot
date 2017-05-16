@@ -360,7 +360,7 @@ defmodule Timerobot.Timesheet do
   def list_entry do
     Entry
     |> Repo.all
-    |> Repo.preload([:project, :person])
+    |> Repo.preload([[project: :client], :person])
   end
 
   @doc """

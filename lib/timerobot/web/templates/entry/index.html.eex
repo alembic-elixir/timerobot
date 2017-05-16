@@ -17,7 +17,7 @@
 <%= for entry <- @entry do %>
     <tr>
       <td><%= link(entry.date, to: entry_path(@conn, :show, entry.id)) %></td>
-      <td><%= entry.project.name %></td>
+      <td><%= entry.project.client.name %> / <%= entry.project.name %></td>
       <td><%= link(entry.person.name, to: person_path(@conn, :show, entry.person.id)) %></td>
       <td><%= entry.hours %></td>
 
