@@ -4,9 +4,9 @@ defmodule Timerobot.Web.PersonController do
   alias Timerobot.Timesheet
 
   def index(conn, _params) do
-    person = Timesheet.list_person()
+    people = Timesheet.list_person()
     render conn, "index.html",
-      person: person
+      people: people
   end
 
   def new(conn, _params) do
