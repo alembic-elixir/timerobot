@@ -3,27 +3,24 @@
 
 <h2>
   <%= @entry.project.name %>
-  <%= link "Edit", to: entry_path(@conn, :edit, @entry) %>
+  <%= link "Edit", to: entry_path(@conn, :edit, @entry), class: "btn btn-success" %>
 </h2>
 
-<ul>
-  <li>
-    <strong>Project:</strong>
-    <%= @entry.project.name %>
-  </li>
-
-  <li>
-    <strong>Person:</strong>
-    <%= @entry.person.name %>
-  </li>
-
-  <li>
-    <strong>Date:</strong>
-    <%= @entry.date %>
-  </li>
-
-  <li>
-    <strong>Hours:</strong>
-    <%= @entry.hours %>
-  </li>
-</ul>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Person</th>
+      <th>Date</th>
+      <th>Hours</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @entry.project.name %></td>
+      <td><%= @entry.person.name %></td>
+      <td><%= @entry.date %></td>
+      <td><%= @entry.hours %></td>
+    </tr>
+  </tbody>
+</table>

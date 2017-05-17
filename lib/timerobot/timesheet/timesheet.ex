@@ -146,7 +146,7 @@ defmodule Timerobot.Timesheet do
   def all_projects_dropdown do
     Project
     |> select([p], {p.name, p.id})
-    |> order_by([p], p.name)
+    |> order_by([p], [p.client_id, p.name])
     |> Repo.all
   end
 
@@ -367,6 +367,7 @@ defmodule Timerobot.Timesheet do
   """
   def list_entry do
     Entry
+    |> order_by([e], [e.date, e.project_id])
     |> Repo.all
     |> Repo.preload([[project: :client], :person])
   end
