@@ -6,7 +6,7 @@ defmodule Timerobot.Timesheet.Entry do
 
   schema "timesheet_entry" do
     field :date, :date
-    field :hours, :integer
+    field :hours, :float
 
     belongs_to :project, Project
     belongs_to :person, Person

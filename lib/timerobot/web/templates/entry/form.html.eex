@@ -29,7 +29,7 @@
 
   <div class="form-group">
     <%= label f, :hours_worked, class: "control-label" %>
-    <%= number_input f, :hours, class: "form-control" %>
+    <%= number_input f, :hours, step: 0.5, class: "form-control" %>
     <%= error_tag f, :hours %>
   </div>
 
