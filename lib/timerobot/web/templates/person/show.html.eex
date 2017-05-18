@@ -14,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    <%= for entry <- @person.entries do %>
+    <%= for entry <- @person.entries |> Enum.sort(&(&1>&2)) do %>
       <tr>
         <td><%= link(entry.date, to: entry_path(@conn, :show, entry.id)) %></td>
         <td><%= entry.project.name %></td>
