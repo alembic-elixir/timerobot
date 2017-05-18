@@ -375,9 +375,10 @@ defmodule Timerobot.Timesheet do
   """
   def list_entry do
     Entry
+    |> preload([[project: :client], :person])
     |> order_by([e], desc: e.date)
+    |> order_by([e], e.project_id)
     |> Repo.all
-    |> Repo.preload([[project: :client], :person])
   end
 
   @doc """
