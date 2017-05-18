@@ -2,14 +2,23 @@
 
 <h2>
   <%= @client.name %>
-  <%= link "Edit", to: client_path(@conn, :edit, @client), class: "btn btn-success"  %>
+  <%= link "Edit", to: client_path(@conn, :edit, @client), class: "btn btn-success" %>
+  <%= link "New Project", to: project_path(@conn, :new), class: "btn btn-success" %>
 </h2>
 
-<ul>
-  <strong>Projects:</strong>
-  <%= for project <- @client.projects do %>
-    <li>
-      <%= link(project.name, to: project_path(@conn, :show, project.id)) %>
-    </li>
-  <% end%>
-</ul>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Projects</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for project <- @client.projects do %>
+      <tr>
+        <td>
+          <%= link(project.name, to: project_path(@conn, :show, project.id)) %>
+        </td>
+      </tr>
+    <% end%>
+  </tbody>
+</table>
