@@ -19,6 +19,6 @@
           <%= link(project.name, to: project_path(@conn, :show, project.id)) %>
         </td>
       </tr>
-    <% end%>
+    <% end %>
   </tbody>
 </table>

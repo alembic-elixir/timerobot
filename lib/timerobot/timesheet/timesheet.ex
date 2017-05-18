@@ -284,7 +284,11 @@ defmodule Timerobot.Timesheet do
       ** (Ecto.NoResultsError)
 
   """
-  def get_person!(id), do: Repo.get!(Person, id)
+  def get_person!(id) do
+    Person
+    |> Repo.get!(id)
+    |> Repo.preload(entries: [:project])
+  end
 
   @doc """
   Creates a person.
