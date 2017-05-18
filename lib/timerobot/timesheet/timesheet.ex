@@ -139,15 +139,19 @@ defmodule Timerobot.Timesheet do
   def all_projects do
     Project
     |> order_by([p], [p.client_id, p.name])
+    |> preload([:client, :entries])
     |> Repo.all
-    |> Repo.preload([:client, :entries])
   end
 
   def all_projects_dropdown do
     Project
-    |> select([p], {p.name, p.id})
-    |> order_by([p], [p.client_id, p.name])
+    |> join(:inner, [p], c in assoc(p, :client), p.client_id == c.id)
+    |> select([p, c], {c.name, p.name, p.id})
+    |> order_by([p, c], [c.name, p.name])
     |> Repo.all
+    |> Enum.map(fn({client_name, project_name, project_id}) ->
+      {"#{client_name} / #{project_name}", project_id}
+    end)
   end
 
   @doc """
