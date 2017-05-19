@@ -8,9 +8,9 @@
   <hr>
 
   <div class="form-group">
-    <%= label f, :date, class: "control-label" %>
-    <%= date_select f, :date, default: {DateTime.utc_now.year, DateTime.utc_now.month, DateTime.utc_now.day}, class: "form-control" %>
-    <%= error_tag f, :date %>
+    <%= label f, :week_starting, class: "control-label" %>
+    <%= select f, :week_starting, @dates, prompt: "Select a week" , class: "form-control" %>
+    <%= error_tag f, :week_starting %>
   </div>
 
 

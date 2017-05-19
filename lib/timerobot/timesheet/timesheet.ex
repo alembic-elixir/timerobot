@@ -482,4 +482,16 @@ defmodule Timerobot.Timesheet do
     |> cast(attrs, [:week_starting])
     |> validate_required([:week_starting])
   end
+
+  def client_hours_report_date_range do
+    now = Timex.now
+    bow = Timex.beginning_of_week(now, :mon)
+
+    -6..0 |> Enum.map(fn offset ->
+      Timex.shift(bow, weeks: offset)
+    end)
+    |> Enum.map(& Timex.to_date(&1))
+    |> Enum.map(fn(date) -> {to_string(date), to_string(date)} end)
+    |> Enum.reverse
+  end
 end

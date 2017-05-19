@@ -5,5 +5,6 @@
   # action: client_path(@conn, :create),
   action: "todo",
   # client_cancel_path: client_path(@conn, :index)
-  client_cancel_path: "also todo"
+  client_cancel_path: "also todo",
+  dates: @dates
 %>
