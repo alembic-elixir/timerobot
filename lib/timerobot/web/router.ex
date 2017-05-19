@@ -26,5 +26,6 @@ defmodule Timerobot.Web.Router do
     resources "/projects", ProjectController
     resources "/people", PersonController
     resources "/times", EntryController
+    resources "/client-hours-report", ClientHoursReportController
   end
 end

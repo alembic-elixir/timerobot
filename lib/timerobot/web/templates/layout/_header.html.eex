@@ -16,6 +16,9 @@
       <li class="navlink">
         <%= link "Entries", to: entry_path(@conn, :index) %>
       </li>
+      <li class="navlink">
+        <%= link "Client Hours Report", to: client_hours_report_path(@conn, :new) %>
+      </li>
     </ul>
   </nav>
 </header>

@@ -7,6 +7,7 @@ defmodule Timerobot.Timesheet do
   alias Timerobot.Repo
 
   alias Timerobot.Timesheet.Client
+  alias Timerobot.Timesheet.ClientHoursReport
   alias Timerobot.Timesheet.Project
   alias Timerobot.Timesheet.Person
   alias Timerobot.Timesheet.Entry
@@ -470,5 +471,15 @@ defmodule Timerobot.Timesheet do
     entry
     |> cast(attrs, [:date, :hours, :person_id, :project_id])
     |> validate_required([:date, :hours, :person_id, :project_id])
+  end
+
+  def new_client_hours_report_changeset(%ClientHoursReport{} = client_hours_report) do
+    client_hours_report_changeset(client_hours_report, %{})
+  end
+
+  defp client_hours_report_changeset(%ClientHoursReport{} = client_hours_report, attrs) do
+    client_hours_report
+    |> cast(attrs, [:week_starting])
+    |> validate_required([:week_starting])
   end
 end
