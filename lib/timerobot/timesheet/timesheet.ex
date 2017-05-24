@@ -484,9 +484,7 @@ defmodule Timerobot.Timesheet do
   end
 
   def client_hours_report_date_range do
-    now = Timex.now
-    bow = Timex.beginning_of_week(now, :mon)
-
+    {bow, _} = week_for_date(Timex.now)
     -6..0 |> Enum.map(fn offset ->
       Timex.shift(bow, weeks: offset)
     end)
@@ -494,4 +492,64 @@ defmodule Timerobot.Timesheet do
     |> Enum.map(fn(date) -> {to_string(date), to_string(date)} end)
     |> Enum.reverse
   end
+
+  def week_for_date(date) do
+    beginning_of_week = Timex.beginning_of_week(date, :mon)
+    end_of_week = Timex.shift(beginning_of_week, days: 6)
+    {beginning_of_week, end_of_week}
+  end
+
+  # def entries_for_week(date) do
+  #   Entry
+  #   # |> preload([[project: :client], :person])
+  #   |> join(:left, [e], pr in assoc(e, :project))
+  #   |> join(:left, [e], pe in assoc(e, :person))
+  #   |> group_by([e, pr, pe], [pr.name, pe.name])
+  #   |> select([e, pr, pe], {pr.name, pe.name, sum(e.hours)})
+  #   |> Repo.all
+  # end
+
+  def entries_for_week(date) do
+    {beginning_of_week, end_of_week} = week_for_date(date)
+    Entry
+    |> preload([[project: :client], :person])
+    |> where([e], e.date >= ^beginning_of_week and e.date <= ^end_of_week)
+    |> Repo.all
+  end
+
+  def entries_for_project(entries) do
+    entries
+    |> Enum.group_by(& &1.project, &{&1.person.name, &1.date,  &1.hours})
+    |> Enum.map(fn {name, times} ->
+      {
+        name,
+        Enum.group_by(times,
+          fn {p, date, _hours} -> {p, date} end,
+          fn {_p, _date, hours} -> hours end
+        ) |> Enum.map(fn {{p, date}, hours} -> {p, date, Enum.sum(hours)} end)
+      }
+    end)
+    |> Enum.group_by(& elem(&1, 0).client.name)
+  end
+
+  def entries_for_person(entries) do
+    entries
+    |> Enum.group_by(& &1.person.name, &{&1.project, &1.date,  &1.hours})
+    |> Enum.map(fn {name, times} ->
+      {
+        name,
+        Enum.group_by(times,
+        fn {p, date, _hours} -> {p, date} end,
+        fn {_p, _date, hours} -> hours end
+        ) |> Enum.map(fn {{p, date}, hours} -> {p, date, Enum.sum(hours)} end)
+      }
+    end)
+  end
+
+  def project_hours_for_week(date) do
+    date
+    |> entries_for_week
+    |> entries_for_project
+  end
+
 end

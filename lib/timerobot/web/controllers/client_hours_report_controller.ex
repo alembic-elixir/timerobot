@@ -3,10 +3,16 @@ defmodule Timerobot.Web.ClientHoursReportController do
 
   alias Timerobot.Timesheet
 
-  def new(conn, _params) do
-    changeset = Timesheet.new_client_hours_report_changeset(%Timesheet.ClientHoursReport{})
-    render conn, "new.html",
-      changeset: changeset,
-      dates: Timesheet.client_hours_report_date_range
+  def index(conn, _params) do
+    projects = Timesheet.project_hours_for_week(~D[2017-05-10])
+    render conn, "index.html",
+      projects: projects
   end
+
+  def project(conn, %{"id" => id}) do
+    project = Timesheet.get_project!(id)
+    render conn, "show.html",
+      project: project
+  end
+
 end
