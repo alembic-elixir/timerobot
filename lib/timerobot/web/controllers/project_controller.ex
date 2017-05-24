@@ -5,9 +5,9 @@ defmodule Timerobot.Web.ProjectController do
   alias Timerobot.Timesheet.Project
 
   def index(conn, _params) do
-    project = Timesheet.all_projects()
+    projects = Timesheet.all_projects()
     render conn, "index.html",
-      project: project
+      projects: projects
   end
 
   def new(conn, _params) do

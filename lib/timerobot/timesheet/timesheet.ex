@@ -7,7 +7,6 @@ defmodule Timerobot.Timesheet do
   alias Timerobot.Repo
 
   alias Timerobot.Timesheet.Client
-  alias Timerobot.Timesheet.ClientHoursReport
   alias Timerobot.Timesheet.Project
   alias Timerobot.Timesheet.Person
   alias Timerobot.Timesheet.Entry
@@ -473,25 +472,62 @@ defmodule Timerobot.Timesheet do
     |> validate_required([:date, :hours, :person_id, :project_id])
   end
 
-  def new_client_hours_report_changeset(%ClientHoursReport{} = client_hours_report) do
-    client_hours_report_changeset(client_hours_report, %{})
-  end
-
-  defp client_hours_report_changeset(%ClientHoursReport{} = client_hours_report, attrs) do
-    client_hours_report
-    |> cast(attrs, [:week_starting])
-    |> validate_required([:week_starting])
-  end
-
-  def client_hours_report_date_range do
-    now = Timex.now
-    bow = Timex.beginning_of_week(now, :mon)
-
-    -6..0 |> Enum.map(fn offset ->
-      Timex.shift(bow, weeks: offset)
+  def weeks(num_weeks \\ 3) do
+    {bow, _} = week_for_date(Timex.now)
+    0..num_weeks-1 |> Enum.map(fn offset ->
+      Timex.shift(bow, weeks: -offset)
     end)
-    |> Enum.map(& Timex.to_date(&1))
-    |> Enum.map(fn(date) -> {to_string(date), to_string(date)} end)
-    |> Enum.reverse
+    |> Enum.map(&Timex.to_date/1)
+    |> Enum.map(fn(date) -> {Timex.format!(date, "{WDfull} {D} {Mfull} {YYYY}"), to_string(date)} end)
   end
+
+  def week_for_date(date) do
+    beginning_of_week = Timex.beginning_of_week(date, :mon)
+    end_of_week = Timex.shift(beginning_of_week, days: 6)
+    {beginning_of_week, end_of_week}
+  end
+
+  def entries_for_week(date) do
+    {beginning_of_week, end_of_week} = week_for_date(date)
+    Entry
+    |> preload([[project: :client], :person])
+    |> where([e], e.date >= ^beginning_of_week and e.date <= ^end_of_week)
+    |> Repo.all
+  end
+
+  def entries_for_project(entries) do
+    entries
+    |> Enum.group_by(& &1.project, &{&1.person.name, &1.hours})
+    |> Enum.map(fn {name, times} ->
+      {
+        name,
+        Enum.group_by(times,
+          fn {p, _hours} -> p end,
+          fn {_p, hours} -> hours end
+        ) |> Enum.map(fn {p, hours} -> {p, Enum.sum(hours)} end)
+      }
+    end)
+    |> Enum.group_by(& elem(&1, 0).client.name)
+  end
+
+  def entries_for_person(entries) do
+    entries
+    |> Enum.group_by(& &1.person.name, &{&1.project, &1.date,  &1.hours})
+    |> Enum.map(fn {name, times} ->
+      {
+        name,
+        Enum.group_by(times,
+        fn {p, date, _hours} -> {p, date} end,
+        fn {_p, _date, hours} -> hours end
+        ) |> Enum.map(fn {{p, date}, hours} -> {p, date, Enum.sum(hours)} end)
+      }
+    end)
+  end
+
+  def project_hours_for_week(date) do
+    date
+    |> entries_for_week
+    |> entries_for_project
+  end
+
 end
