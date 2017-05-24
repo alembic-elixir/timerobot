@@ -22,10 +22,12 @@ defmodule Timerobot.Web.Router do
     pipe_through :admin
 
     get "/", PageController, :index
+
     resources "/clients", ClientController
     resources "/projects", ProjectController
     resources "/people", PersonController
     resources "/times", EntryController
-    get "/client-hours-repor", ClientHoursReportController, :index
+
+    get "/report", ReportController, :report
   end
 end

@@ -1,0 +1,30 @@
+<%= form_for @conn, report_path(@conn, :report), [method: :get, as: :report], fn f -> %>
+  <fieldset class="form-group">
+    <legend>Time Reports</legend>
+    <%= label f, "Week Starting", class: "control-label" %>
+    <%= select f, :date, @week_list, class: "control-label", onchange: "this.form.submit()" %>
+  </fieldset>
+<% end %>
+
+<table class="table table-striped">
+  <%= for {client_name, projects} <- @data do %>
+    <thead>
+      <tr>
+        <th colspan="3">
+          <h4><%= client_name %></h4>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for {project, entries} <- projects do %>
+        <%= for {name, hours} <- entries do %>
+          <tr>
+            <td><%= link(project.name, to: project_path(@conn, :show, project.id)) %></td>
+            <td><%= name %></td>
+            <td class="text-right"><strong><%= hours %></strong></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  <% end %>
+</table>
