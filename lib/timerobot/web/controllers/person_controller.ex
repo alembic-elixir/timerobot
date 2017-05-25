@@ -29,8 +29,11 @@ defmodule Timerobot.Web.PersonController do
 
   def show(conn, %{"id" => id}) do
     person = Timesheet.get_person!(id)
+    data = Timesheet.sort_dates(id)
+
     render conn, "show.html",
-      person: person
+      person: person,
+      data: data
   end
 
   def edit(conn, %{"id" => id}) do

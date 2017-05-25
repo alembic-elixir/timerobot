@@ -498,9 +498,9 @@ defmodule Timerobot.Timesheet do
   def entries_for_project(entries) do
     entries
     |> Enum.group_by(& &1.project, &{&1.person.name, &1.hours})
-    |> Enum.map(fn {name, times} ->
+    |> Enum.map(fn {project, times} ->
       {
-        name,
+        project,
         Enum.group_by(times,
           fn {p, _hours} -> p end,
           fn {_p, hours} -> hours end
@@ -512,16 +512,30 @@ defmodule Timerobot.Timesheet do
 
   def entries_for_person(entries) do
     entries
-    |> Enum.group_by(& &1.person.name, &{&1.project, &1.date,  &1.hours})
-    |> Enum.map(fn {name, times} ->
+    |> Enum.group_by(&Timex.beginning_of_week(&1.date), &{&1.project, &1.date, &1.hours})
+    |> Enum.map(fn {week, times} ->
       {
-        name,
+        week,
         Enum.group_by(times,
-        fn {p, date, _hours} -> {p, date} end,
-        fn {_p, _date, hours} -> hours end
-        ) |> Enum.map(fn {{p, date}, hours} -> {p, date, Enum.sum(hours)} end)
+          fn {p, date, _hours} -> {p, date} end,
+          fn {_p, _date, hours} -> hours end
+        )
+        |> Enum.map(fn {{p, date}, hours} ->
+          {date, p, Enum.sum(hours)}
+        end)
+        |> Enum.sort(fn ({date1, _, _}, {date2, _, _}) ->
+          date1 < date2
+        end)
       }
     end)
+    |> Enum.sort(fn ({week1, _}, {week2, _}) ->
+      week1 >= week2
+    end)
+  end
+
+  def sort_dates(id) do
+    get_person!(id).entries
+    |> entries_for_person
   end
 
 end
