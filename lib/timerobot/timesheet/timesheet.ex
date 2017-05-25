@@ -533,7 +533,7 @@ defmodule Timerobot.Timesheet do
     end)
   end
 
-  def sort_dates(id) do
+  def sort_persons_entries(id) do
     get_person!(id).entries
     |> entries_for_person
   end
