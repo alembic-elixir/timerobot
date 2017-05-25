@@ -524,10 +524,4 @@ defmodule Timerobot.Timesheet do
     end)
   end
 
-  def project_hours_for_week(date) do
-    date
-    |> entries_for_week
-    |> entries_for_project
-  end
-
 end
