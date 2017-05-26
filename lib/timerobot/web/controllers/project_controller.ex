@@ -30,16 +30,16 @@ defmodule Timerobot.Web.ProjectController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    project = Timesheet.get_project!(id)
-    data = Timesheet.sort_project_entries(id)
+  def show(conn, %{"slug" => slug}) do
+    project = Timesheet.get_project!(slug)
+    data = Timesheet.sort_project_entries(slug)
     render conn, "show.html",
       project: project,
       data: data
   end
 
-  def edit(conn, %{"id" => id}) do
-    project = Timesheet.get_project!(id)
+  def edit(conn, %{"slug" => slug}) do
+    project = Timesheet.get_project!(slug)
     changeset = Timesheet.change_project(project)
     render conn, "edit.html",
       project: project,
@@ -47,8 +47,8 @@ defmodule Timerobot.Web.ProjectController do
       clients: Timesheet.all_clients_dropdown
   end
 
-  def update(conn, %{"id" => id, "project" => project_params}) do
-    project = Timesheet.get_project!(id)
+  def update(conn, %{"slug" => slug, "project" => project_params}) do
+    project = Timesheet.get_project!(slug)
 
     case Timesheet.update_project(project, project_params) do
       {:ok, project} ->
@@ -63,8 +63,8 @@ defmodule Timerobot.Web.ProjectController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    project = Timesheet.get_project!(id)
+  def delete(conn, %{"slug" => slug}) do
+    project = Timesheet.get_project!(slug)
     {:ok, _project} = Timesheet.delete_project(project)
 
     conn

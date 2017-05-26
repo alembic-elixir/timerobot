@@ -19,7 +19,7 @@
       <%= for {project, entries} <- projects do %>
         <%= for {name, hours} <- entries do %>
           <tr>
-            <td><%= link(project.name, to: project_path(@conn, :show, project.id)) %></td>
+            <td><%= link(project.name, to: project_path(@conn, :show, project.slug)) %></td>
             <td><%= name %></td>
             <td class="text-right"><strong><%= hours %></strong></td>
           </tr>

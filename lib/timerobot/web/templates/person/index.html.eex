@@ -12,7 +12,7 @@
   <tbody>
 <%= for person <- @people do %>
     <tr>
-      <td><%= link(person.name, to: person_path(@conn, :show, person.id)) %></td>
+      <td><%= link(person.name, to: person_path(@conn, :show, person.slug)) %></td>
 
       <td class="text-right">
       </td>

@@ -27,24 +27,24 @@ defmodule Timerobot.Web.PersonController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    person = Timesheet.get_person!(id)
-    data = Timesheet.sort_person_entries(id)
+  def show(conn, %{"slug" => slug}) do
+    person = Timesheet.get_person!(slug)
+    data = Timesheet.sort_person_entries(slug)
     render conn, "show.html",
       person: person,
       data: data
   end
 
-  def edit(conn, %{"id" => id}) do
-    person = Timesheet.get_person!(id)
+  def edit(conn, %{"slug" => slug}) do
+    person = Timesheet.get_person!(slug)
     changeset = Timesheet.change_person(person)
     render conn, "edit.html",
       person: person,
       changeset: changeset
   end
 
-  def update(conn, %{"id" => id, "person" => person_params}) do
-    person = Timesheet.get_person!(id)
+  def update(conn, %{"slug" => slug, "person" => person_params}) do
+    person = Timesheet.get_person!(slug)
 
     case Timesheet.update_person(person, person_params) do
       {:ok, person} ->
@@ -58,8 +58,8 @@ defmodule Timerobot.Web.PersonController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    person = Timesheet.get_person!(id)
+  def delete(conn, %{"slug" => slug}) do
+    person = Timesheet.get_person!(slug)
     {:ok, _person} = Timesheet.delete_person(person)
 
     conn

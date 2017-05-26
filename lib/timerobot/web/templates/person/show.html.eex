@@ -28,7 +28,7 @@
   <tbody>
     <%= for {project, project_times} <- Enum.group_by(times, &elem(&1, 1)) do %>
       <tr>
-        <td><%= link(project.name, to: project_path(@conn, :show, project.id)) %></td>
+        <td><%= link(project.name, to: project_path(@conn, :show, project.slug)) %></td>
         <%= for day_offset <- 0..6 do %>
           <%
             day = Timex.shift(beginning_of_week, days: day_offset)

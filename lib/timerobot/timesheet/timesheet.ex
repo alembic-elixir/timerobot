@@ -47,9 +47,9 @@ defmodule Timerobot.Timesheet do
       ** (Ecto.NoResultsError)
 
   """
-  def get_client!(id) do
+  def get_client!(slug) do
     Client
-    |> Repo.get!(id)
+    |> Repo.get_by!(slug: slug)
     |> Repo.preload([:projects])
   end
 
@@ -169,9 +169,9 @@ defmodule Timerobot.Timesheet do
       ** (Ecto.NoResultsError)
 
   """
-  def get_project!(id) do
+  def get_project!(slug) do
     Project
-    |> Repo.get!(id)
+    |> Repo.get_by!(slug: slug)
     |> Repo.preload([:client, entries: [:person]])
   end
 
@@ -286,9 +286,9 @@ defmodule Timerobot.Timesheet do
       ** (Ecto.NoResultsError)
 
   """
-  def get_person!(id) do
+  def get_person!(slug) do
     Person
-    |> Repo.get!(id)
+    |> Repo.get_by!(slug: slug)
     |> Repo.preload(entries: [:project])
   end
 

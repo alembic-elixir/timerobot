@@ -16,7 +16,7 @@
     <%= for project <- @client.projects do %>
       <tr>
         <td>
-          <%= link(project.name, to: project_path(@conn, :show, project.id)) %>
+          <%= link(project.name, to: project_path(@conn, :show, project.slug)) %>
         </td>
       </tr>
     <% end %>

@@ -13,7 +13,7 @@
   <tbody>
 <%= for client <- @clients do %>
     <tr>
-      <td><%= link(client.name, to: client_path(@conn, :show, client.id)) %></td>
+      <td><%= link(client.name, to: client_path(@conn, :show, client.slug)) %></td>
 
       <td class="text-right">
       </td>

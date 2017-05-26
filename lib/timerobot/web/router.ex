@@ -23,9 +23,9 @@ defmodule Timerobot.Web.Router do
 
     get "/", PageController, :index
 
-    resources "/clients", ClientController
-    resources "/projects", ProjectController
-    resources "/people", PersonController
+    resources "/clients", ClientController, param: "slug"
+    resources "/projects", ProjectController, param: "slug"
+    resources "/people", PersonController, param: "slug"
     resources "/times", EntryController
 
     get "/report", ReportController, :report

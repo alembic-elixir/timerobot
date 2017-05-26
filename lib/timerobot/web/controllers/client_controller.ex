@@ -26,22 +26,22 @@ defmodule Timerobot.Web.ClientController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    client = Timesheet.get_client!(id)
+  def show(conn, %{"slug" => slug}) do
+    client = Timesheet.get_client!(slug)
     render conn, "show.html",
       client: client
   end
 
-  def edit(conn, %{"id" => id}) do
-    client = Timesheet.get_client!(id)
+  def edit(conn, %{"slug" => slug}) do
+    client = Timesheet.get_client!(slug)
     changeset = Timesheet.change_client(client)
     render conn, "edit.html",
       client: client,
       changeset: changeset
   end
 
-  def update(conn, %{"id" => id, "client" => client_params}) do
-    client = Timesheet.get_client!(id)
+  def update(conn, %{"slug" => slug, "client" => client_params}) do
+    client = Timesheet.get_client!(slug)
 
     case Timesheet.update_client(client, client_params) do
       {:ok, client} ->
@@ -55,8 +55,8 @@ defmodule Timerobot.Web.ClientController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    client = Timesheet.get_client!(id)
+  def delete(conn, %{"slug" => slug}) do
+    client = Timesheet.get_client!(slug)
     {:ok, _client} = Timesheet.delete_client(client)
 
     conn
