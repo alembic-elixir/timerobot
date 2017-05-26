@@ -32,8 +32,10 @@ defmodule Timerobot.Web.ProjectController do
 
   def show(conn, %{"id" => id}) do
     project = Timesheet.get_project!(id)
+    data = Timesheet.sort_project_entries(id)
     render conn, "show.html",
-      project: project
+      project: project,
+      data: data
   end
 
   def edit(conn, %{"id" => id}) do

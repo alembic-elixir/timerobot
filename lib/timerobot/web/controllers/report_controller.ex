@@ -16,7 +16,7 @@ defmodule Timerobot.Web.ReportController do
     data =
       date
       |> Timesheet.entries_for_week
-      |> Timesheet.entries_for_project
+      |> Timesheet.entries_for_report
 
     render conn, "report.html",
       data: data,
