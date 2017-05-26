@@ -66,9 +66,10 @@ defmodule Timerobot.Timesheet do
 
   """
   def create_client(attrs \\ %{}) do
-    attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
+    slug = Slugger.slugify_downcase(attrs["name"])
+
     %Client{}
-    |> client_changeset(attrs_with_slug)
+    |> client_changeset(Map.put(attrs, "slug", slug))
     |> Repo.insert()
   end
 
@@ -187,9 +188,10 @@ defmodule Timerobot.Timesheet do
 
   """
   def create_project(attrs \\ %{}) do
-    attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
+    slug = Slugger.slugify_downcase(attrs["name"])
+
     %Project{}
-    |> project_changeset(attrs_with_slug)
+    |> project_changeset(Map.put(attrs, "slug", slug))
     |> Repo.insert()
   end
 
@@ -303,9 +305,10 @@ defmodule Timerobot.Timesheet do
 
   """
   def create_person(attrs \\ %{}) do
-    attrs_with_slug = Map.put(attrs, "slug", Slugger.slugify_downcase(attrs["name"]))
+    slug = Slugger.slugify_downcase(attrs["name"])
+
     %Person{}
-    |> person_changeset(attrs_with_slug)
+    |> person_changeset(Map.put(attrs, "slug", slug))
     |> Repo.insert()
   end
 
