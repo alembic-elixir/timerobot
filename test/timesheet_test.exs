@@ -20,7 +20,7 @@ defmodule Timerobot.TimesheetTest do
 
   test "get_client! returns the client with given id" do
     client = fixture(:client)
-    assert Timesheet.get_client!(client.id).id == client.id
+    assert Timesheet.get_client!(client.slug).slug == client.slug
   end
 
   test "create_client/1 with valid data creates a client" do
@@ -44,13 +44,13 @@ defmodule Timerobot.TimesheetTest do
   test "update_client/2 with invalid data returns error changeset" do
     client = fixture(:client)
     assert {:error, %Ecto.Changeset{}} = Timesheet.update_client(client, @invalid_attrs)
-    assert client.id == Timesheet.get_client!(client.id).id
+    assert client.slug == Timesheet.get_client!(client.slug).slug
   end
 
   test "delete_client/1 deletes the client" do
     client = fixture(:client)
     assert {:ok, %Client{}} = Timesheet.delete_client(client)
-    assert_raise Ecto.NoResultsError, fn -> Timesheet.get_client!(client.id) end
+    assert_raise Ecto.NoResultsError, fn -> Timesheet.get_client!(client.slug) end
   end
 
   test "change_client/1 returns a client changeset" do

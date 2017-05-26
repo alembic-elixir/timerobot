@@ -4,7 +4,7 @@ defmodule Timerobot.Web.ClientControllerTest do
   alias Timerobot.Timesheet
 
   @create_attrs %{"name" => "some name"}
-  @update_attrs %{name: "some updated name", slug: "some-updated-name"}
+  @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil, slug: nil}
 
   def fixture(:client) do
@@ -34,13 +34,13 @@ defmodule Timerobot.Web.ClientControllerTest do
       |> using_basic_auth
       |> post(client_path(conn, :create), client: @create_attrs)
 
-    assert %{id: id} = redirected_params(conn)
-    assert redirected_to(conn) == client_path(conn, :show, id)
+    assert %{slug: slug} = redirected_params(conn)
+    assert redirected_to(conn) == client_path(conn, :show, slug)
 
     conn =
       build_conn()
       |> using_basic_auth
-      |> get(client_path(conn, :show, id))
+      |> get(client_path(conn, :show, slug))
     assert html_response(conn, 200) =~ "some name"
   end
 
@@ -57,7 +57,7 @@ defmodule Timerobot.Web.ClientControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> get(client_path(conn, :edit, client))
+      |> get(client_path(conn, :edit, client.slug))
     assert html_response(conn, 200) =~ "Edit Client"
   end
 
@@ -66,13 +66,13 @@ defmodule Timerobot.Web.ClientControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> put(client_path(conn, :update, client), client: @update_attrs)
-    assert redirected_to(conn) == client_path(conn, :show, client)
+      |> put(client_path(conn, :update, client.slug), client: @update_attrs)
+    assert redirected_to(conn) == client_path(conn, :show, client.slug)
 
     conn =
       build_conn()
       |> using_basic_auth
-      |> get(client_path(conn, :show, client))
+      |> get(client_path(conn, :show, client.slug))
     assert html_response(conn, 200) =~ "some updated name"
   end
 
@@ -81,18 +81,18 @@ defmodule Timerobot.Web.ClientControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> put(client_path(conn, :update, client), client: @invalid_attrs)
+      |> put(client_path(conn, :update, client.slug), client: @invalid_attrs)
     assert html_response(conn, 200) =~ "Edit Client"
   end
 
   test "deletes chosen client", %{conn: conn} do
     client = fixture(:client)
-    conn = conn |> using_basic_auth |> delete(client_path(conn, :delete, client))
+    conn = conn |> using_basic_auth |> delete(client_path(conn, :delete, client.slug))
     assert redirected_to(conn) == client_path(conn, :index)
     assert_error_sent 404, fn ->
       build_conn()
       |> using_basic_auth
-      |> get(client_path(conn, :show, client))
+      |> get(client_path(conn, :show, client.slug))
     end
   end
 end

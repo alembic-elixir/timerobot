@@ -20,7 +20,7 @@ defmodule Timerobot.Web.PersonController do
       {:ok, person} ->
         conn
         |> put_flash(:info, "Person created successfully.")
-        |> redirect(to: person_path(conn, :show, person))
+        |> redirect(to: person_path(conn, :show, person.slug))
       {:error, %Ecto.Changeset{} = changeset} ->
         render conn, "new.html",
           changeset: changeset
@@ -50,7 +50,7 @@ defmodule Timerobot.Web.PersonController do
       {:ok, person} ->
         conn
         |> put_flash(:info, "Person updated successfully.")
-        |> redirect(to: person_path(conn, :show, person))
+        |> redirect(to: person_path(conn, :show, person.slug))
       {:error, %Ecto.Changeset{} = changeset} ->
         render conn, "edit.html",
           person: person,

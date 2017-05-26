@@ -45,13 +45,13 @@ defmodule Timerobot.Web.ProjectControllerTest do
       |> using_basic_auth
       |> post(project_path(conn, :create), project: create_attrs)
 
-    assert %{id: id} = redirected_params(conn)
-    assert redirected_to(conn) == project_path(conn, :show, id)
+    assert %{slug: slug} = redirected_params(conn)
+    assert redirected_to(conn) == project_path(conn, :show, slug)
 
     conn =
       build_conn()
       |> using_basic_auth
-      |> get(project_path(conn, :show, id))
+      |> get(project_path(conn, :show, slug))
     assert html_response(conn, 200) =~ "some name"
   end
 
@@ -68,7 +68,7 @@ defmodule Timerobot.Web.ProjectControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> get(project_path(conn, :edit, project))
+      |> get(project_path(conn, :edit, project.slug))
     assert html_response(conn, 200) =~ "Edit Project"
   end
 
@@ -77,13 +77,13 @@ defmodule Timerobot.Web.ProjectControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> put(project_path(conn, :update, project), project: @update_attrs)
-    assert redirected_to(conn) == project_path(conn, :show, project)
+      |> put(project_path(conn, :update, project.slug), project: @update_attrs)
+    assert redirected_to(conn) == project_path(conn, :show, project.slug)
 
     conn =
       build_conn()
       |> using_basic_auth
-      |> get(project_path(conn, :show, project))
+      |> get(project_path(conn, :show, project.slug))
     assert html_response(conn, 200) =~ "some updated name"
   end
 
@@ -92,18 +92,18 @@ defmodule Timerobot.Web.ProjectControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> put(project_path(conn, :update, project), project: @invalid_attrs)
+      |> put(project_path(conn, :update, project.slug), project: @invalid_attrs)
     assert html_response(conn, 200) =~ "Edit Project"
   end
 
   test "deletes chosen project", %{conn: conn} do
     project = fixture(:project)
-    conn = conn |> using_basic_auth |> delete(project_path(conn, :delete, project))
+    conn = conn |> using_basic_auth |> delete(project_path(conn, :delete, project.slug))
     assert redirected_to(conn) == project_path(conn, :index)
     assert_error_sent 404, fn ->
       build_conn()
       |> using_basic_auth
-      |> get(project_path(conn, :show, project))
+      |> get(project_path(conn, :show, project.slug))
     end
   end
 end

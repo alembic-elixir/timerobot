@@ -4,7 +4,7 @@ defmodule Timerobot.Web.PersonControllerTest do
   alias Timerobot.Timesheet
 
   @create_attrs %{"name" => "some name"}
-  @update_attrs %{name: "some updated name", slug: "some updated slug"}
+  @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil, slug: nil}
 
   def fixture(:person) do
@@ -34,13 +34,13 @@ defmodule Timerobot.Web.PersonControllerTest do
       |> using_basic_auth
       |> post(person_path(conn, :create), person: @create_attrs)
 
-    assert %{id: id} = redirected_params(conn)
-    assert redirected_to(conn) == person_path(conn, :show, id)
+    assert %{slug: slug} = redirected_params(conn)
+    assert redirected_to(conn) == person_path(conn, :show, slug)
 
     conn =
       build_conn()
       |> using_basic_auth
-      |> get(person_path(conn, :show, id))
+      |> get(person_path(conn, :show, slug))
     assert html_response(conn, 200) =~ @create_attrs["name"]
   end
 
@@ -57,7 +57,7 @@ defmodule Timerobot.Web.PersonControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> get(person_path(conn, :edit, person))
+      |> get(person_path(conn, :edit, person.slug))
     assert html_response(conn, 200) =~ "Edit Person"
   end
 
@@ -66,13 +66,13 @@ defmodule Timerobot.Web.PersonControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> put(person_path(conn, :update, person), person: @update_attrs)
-    assert redirected_to(conn) == person_path(conn, :show, person)
+      |> put(person_path(conn, :update, person.slug), person: @update_attrs)
+    assert redirected_to(conn) == person_path(conn, :show, person.slug)
 
     conn =
       build_conn()
       |> using_basic_auth
-      |> get(person_path(conn, :show, person))
+      |> get(person_path(conn, :show, person.slug))
     assert html_response(conn, 200) =~ "some updated name"
   end
 
@@ -81,18 +81,18 @@ defmodule Timerobot.Web.PersonControllerTest do
     conn =
       conn
       |> using_basic_auth
-      |> put(person_path(conn, :update, person), person: @invalid_attrs)
+      |> put(person_path(conn, :update, person.slug), person: @invalid_attrs)
     assert html_response(conn, 200) =~ "Edit Person"
   end
 
   test "deletes chosen person", %{conn: conn} do
     person = fixture(:person)
-    conn = conn |> using_basic_auth |> delete(person_path(conn, :delete, person))
+    conn = conn |> using_basic_auth |> delete(person_path(conn, :delete, person.slug))
     assert redirected_to(conn) == person_path(conn, :index)
     assert_error_sent 404, fn ->
       build_conn()
       |> using_basic_auth
-      |> get(person_path(conn, :show, person))
+      |> get(person_path(conn, :show, person.slug))
     end
   end
 end

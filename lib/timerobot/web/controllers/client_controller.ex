@@ -19,7 +19,7 @@ defmodule Timerobot.Web.ClientController do
       {:ok, client} ->
         conn
         |> put_flash(:info, "Client created successfully.")
-        |> redirect(to: client_path(conn, :show, client))
+        |> redirect(to: client_path(conn, :show, client.slug))
       {:error, %Ecto.Changeset{} = changeset} ->
         render conn, "new.html",
           changeset: changeset
@@ -47,7 +47,7 @@ defmodule Timerobot.Web.ClientController do
       {:ok, client} ->
         conn
         |> put_flash(:info, "Client updated successfully.")
-        |> redirect(to: client_path(conn, :show, client))
+        |> redirect(to: client_path(conn, :show, client.slug))
       {:error, %Ecto.Changeset{} = changeset} ->
         render conn, "edit.html",
           client: client,
