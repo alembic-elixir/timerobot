@@ -8,21 +8,48 @@
 
 <table class="table table-striped">
   <%= for {beginning_of_week, times} <- @data do %>
-    <thead>
-      <tr>
-        <th colspan="3">
-          <h4>Week starting <%= beginning_of_week |> Timex.format!("{D} {Mfull} {YYYY}") %></h4>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for {date, project, hours} <- times do %>
-        <tr>
-          <td><%= date |> Timex.format!("{WDfull} {D} {Mfull} {YYYY}") %></td>
-          <td><%= link(project.name, to: project_path(@conn, :show, project.id)) %></td>
-          <td class="text-right"><strong><%= hours %></strong></td>
-        </tr>
+  <thead>
+    <tr>
+      <th colspan="9">
+        <h4>Week starting <%= beginning_of_week |> Timex.format!("{D} {Mfull} {YYYY}") %></h4>
+      </th>
+    </tr>
+    <tr>
+      <th>Project</th>
+      <%= for day_offset <- 0..6 do %>
+        <%
+          day = Timex.shift(beginning_of_week, days: day_offset)
+        %>
+        <th class="text-right"><%= day |> Timex.format!("{WDshort} {D}")%>
       <% end %>
-    </tbody>
+      <th class="text-right">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for {project, project_times} <- Enum.group_by(times, &elem(&1, 1)) do %>
+      <tr>
+        <td><%= link(project.name, to: project_path(@conn, :show, project.id)) %></td>
+        <%= for day_offset <- 0..6 do %>
+          <%
+            day = Timex.shift(beginning_of_week, days: day_offset)
+            hours =
+              project_times
+              |> Enum.filter(&(elem(&1, 0) == day))
+              |> Enum.reduce(0, &(elem(&1, 2) + &2))
+          %>
+          <%= if hours == 0 do %>
+            <td class="text-right" style="color: #ccc;">-</td>
+          <% else %>
+            <td class="text-right" style="color: #444;"><%= hours %></td>
+          <% end %>
+        <% end %>
+        <td class="text-right">
+          <strong>
+            <%= Enum.reduce(project_times, 0, &(elem(&1, 2) + &2)) %>
+          </strong>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
   <% end %>
 </table>
