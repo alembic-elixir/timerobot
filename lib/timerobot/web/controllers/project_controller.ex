@@ -17,7 +17,6 @@ defmodule Timerobot.Web.ProjectController do
   end
 
   def create(conn, %{"project" => project_params}) do
-
     case Timesheet.create_project(project_params) do
       {:ok, project} ->
         conn
