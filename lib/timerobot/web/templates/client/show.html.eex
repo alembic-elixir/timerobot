@@ -2,7 +2,7 @@
 
 <h2>
   <%= @client.name %>
-  <%= link "Edit", to: client_path(@conn, :edit, @client), class: "btn btn-success" %>
+  <%= link "Edit", to: client_path(@conn, :edit, @client.slug), class: "btn btn-success" %>
   <%= link "New Project", to: project_path(@conn, :new), class: "btn btn-success" %>
 </h2>
 
