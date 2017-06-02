@@ -2,6 +2,7 @@ defmodule Timerobot.Web.EntryController do
   use Timerobot.Web, :controller
 
   alias Timerobot.Timesheet
+  alias Timerobot.Timesheet.Entry
 
   def index(conn, _params) do
     entry = Timesheet.list_entry()
@@ -9,10 +10,15 @@ defmodule Timerobot.Web.EntryController do
       entry: entry
   end
 
+  def new(conn, %{"entry" => entry_params}) do
+    do_new conn, Timesheet.change_entry(%Entry{}, entry_params)
+  end
+
   def new(conn, _params) do
+    do_new conn, Timesheet.change_entry(%Entry{})
+  end
 
-    changeset = Timesheet.change_entry(%Timerobot.Timesheet.Entry{})
-
+  def do_new(conn, changeset) do
     render conn, "new.html",
       changeset: changeset,
       people: Timesheet.all_people_dropdown,

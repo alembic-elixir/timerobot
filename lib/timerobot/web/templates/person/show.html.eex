@@ -32,15 +32,31 @@
           <%= for day_offset <- 0..6 do %>
             <%
               day = Timex.shift(beginning_of_week, days: day_offset)
-              hours =
+              entries =
                 project_times
                 |> Enum.filter(&(elem(&1, 0) == day))
+              hours =
+                entries
                 |> Enum.reduce(0, &(elem(&1, 2) + &2))
             %>
             <%= if hours == 0 do %>
-              <td class="text-right" style="color: #ccc;">-</td>
+              <td class="text-right" style="color: #ccc;">
+                <%=
+                  link "-", to: entry_path(@conn, :new, %{
+                    "entry" => %{
+                      "person_id" => @person.id,
+                      "project_id" => project.id,
+                      "date" => to_string(day),
+                    }
+                  })
+                %>
+              </td>
             <% else %>
-              <td class="text-right" style="color: #444;"><%= hours %></td>
+              <td class="text-right" style="color: #444;">
+                <%=
+                  hours
+                %>
+              </td>
             <% end %>
           <% end %>
           <td class="text-right">

@@ -469,6 +469,10 @@ defmodule Timerobot.Timesheet do
     entry_changeset(entry, %{})
   end
 
+  def change_entry(%Entry{} = entry, attrs) do
+    entry_changeset(entry, attrs)
+  end
+
   defp entry_changeset(%Entry{} = entry, attrs) do
     entry
     |> cast(attrs, [:date, :hours, :person_id, :project_id])

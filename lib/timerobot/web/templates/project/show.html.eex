@@ -37,7 +37,17 @@
               |> Enum.reduce(0, &(elem(&1, 2) + &2))
           %>
           <%= if hours == 0 do %>
-            <td class="text-right" style="color: #ccc;">-</td>
+            <td class="text-right" style="color: #ccc;">
+              <%=
+                link "-", to: entry_path(@conn, :new, %{
+                  "entry" => %{
+                    "person_id" => person.id,
+                    "project_id" => @project.id,
+                    "date" => to_string(day),
+                  }
+                })
+              %>
+            </td>
           <% else %>
             <td class="text-right" style="color: #444;"><%= hours %></td>
           <% end %>
