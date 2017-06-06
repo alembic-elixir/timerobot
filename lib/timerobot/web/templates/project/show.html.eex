@@ -7,58 +7,66 @@
 
 <table class="table table-striped">
   <%= for {beginning_of_week, times} <- @data do %>
-  <thead>
-    <tr>
-      <th colspan="9">
-        <h4>Week starting <%= beginning_of_week |> Timex.format!("{D} {Mfull} {YYYY}") %></h4>
-      </th>
-    </tr>
-    <tr>
-      <th>Person</th>
-      <%= for day_offset <- 0..6 do %>
-        <%
-          day = Timex.shift(beginning_of_week, days: day_offset)
-        %>
-        <th class="text-right"><%= day |> Timex.format!("{WDshort} {D}")%>
-      <% end %>
-      <th class="text-right">Total</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= for {person, person_times} <- Enum.group_by(times, &elem(&1, 1)) do %>
+    <thead>
       <tr>
-        <td><%= link(person.name, to: person_path(@conn, :show, person.slug)) %></td>
+        <th colspan="9">
+          <h4>Week starting <%= beginning_of_week |> Timex.format!("{D} {Mfull} {YYYY}") %></h4>
+        </th>
+      </tr>
+      <tr>
+        <th>Person</th>
         <%= for day_offset <- 0..6 do %>
           <%
             day = Timex.shift(beginning_of_week, days: day_offset)
-            hours =
-              person_times
-              |> Enum.filter(&(elem(&1, 0) == day))
-              |> Enum.reduce(0, &(elem(&1, 2) + &2))
           %>
-          <%= if hours == 0 do %>
-            <td class="text-right" style="color: #ccc;">
-              <%=
-                link "-", to: entry_path(@conn, :new, %{
-                  "entry" => %{
-                    "person_id" => person.id,
-                    "project_id" => @project.id,
-                    "date" => to_string(day),
-                  }
-                })
-              %>
-            </td>
-          <% else %>
-            <td class="text-right" style="color: #444;"><%= hours %></td>
-          <% end %>
+          <th class="text-right"><%= day |> Timex.format!("{WDshort} {D}")%>
         <% end %>
+        <th class="text-right">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for {person, person_times} <- Enum.group_by(times, &elem(&1, 1)) do %>
+        <tr>
+          <td><%= link(person.name, to: person_path(@conn, :show, person.slug)) %></td>
+          <%= for day_offset <- 0..6 do %>
+            <%
+              day = Timex.shift(beginning_of_week, days: day_offset)
+              hours =
+                person_times
+                |> Enum.filter(&(elem(&1, 0) == day))
+                |> Enum.reduce(0, &(elem(&1, 2) + &2))
+            %>
+            <%= if hours == 0 do %>
+              <td class="text-right" style="color: #ccc;">
+                <%=
+                  link "-", to: entry_path(@conn, :new, %{
+                    "entry" => %{
+                      "person_id" => person.id,
+                      "project_id" => @project.id,
+                      "date" => to_string(day),
+                    }
+                  })
+                %>
+              </td>
+            <% else %>
+              <td class="text-right" style="color: #444;"><%= hours %></td>
+            <% end %>
+          <% end %>
+          <td class="text-right">
+            <strong>
+              <%= Enum.reduce(person_times, 0, &(elem(&1, 2) + &2)) %>
+            </strong>
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="8">
+          <strong>Total</strong>
+        </td>
         <td class="text-right">
-          <strong>
-            <%= Enum.reduce(person_times, 0, &(elem(&1, 2) + &2)) %>
-          </strong>
+          <%= calculate_totals(times) %>
         </td>
       </tr>
-    <% end %>
-  </tbody>
+    </tbody>
   <% end %>
 </table>
