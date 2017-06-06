@@ -20,7 +20,7 @@ defmodule Timerobot.Web.ReportController do
 
     render conn, "report.html",
       data: data,
-      week_list: Timesheet.weeks(4),
+      week_list: Timesheet.weeks(13),
       beginning_of_week: Timex.format!(beginning_of_week, "{WDfull} {D} {Mfull} {YYYY}")
   end
 

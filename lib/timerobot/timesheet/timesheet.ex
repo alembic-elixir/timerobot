@@ -530,14 +530,10 @@ defmodule Timerobot.Timesheet do
         |> Enum.map(fn {{p, date}, hours} ->
           {date, p, Enum.sum(hours)}
         end)
-        |> Enum.sort(fn ({date1, _, _}, {date2, _, _}) ->
-          date1 < date2
-        end)
+        |> Enum.sort_by(fn {date, _, _} -> to_string(date) end, &</2)
       }
     end)
-    |> Enum.sort(fn ({week1, _}, {week2, _}) ->
-      week1 >= week2
-    end)
+    |> Enum.sort_by(fn {bow, _} -> to_string(bow) end, &>=/2)
   end
 
   def entries_for_project(entries) do
@@ -553,14 +549,10 @@ defmodule Timerobot.Timesheet do
         |> Enum.map(fn {{p, date}, hours} ->
           {date, p, Enum.sum(hours)}
         end)
-        |> Enum.sort(fn ({date1, _, _}, {date2, _, _}) ->
-          date1 < date2
-        end)
+        |> Enum.sort_by(fn {date, _, _} -> to_string(date) end, &</2)
       }
     end)
-    |> Enum.sort(fn ({week1, _}, {week2, _}) ->
-      week1 >= week2
-    end)
+    |> Enum.sort_by(fn {bow, _} -> to_string(bow) end, &>=/2)
   end
 
   def sort_person_entries(id) do
