@@ -11,16 +11,18 @@
     <thead>
       <tr>
         <th colspan="9">
-          <h4>Week starting <%= beginning_of_week |> Timex.format!("{D} {Mfull} {YYYY}") %></h4>
+          <h4>Week starting
+            <%= beginning_of_week |> Timex.format!("{D} {Mfull} {YYYY}") %>
+          </h4>
         </th>
       </tr>
       <tr>
         <th>Project</th>
         <%= for day_offset <- 0..6 do %>
-          <%
-            day = Timex.shift(beginning_of_week, days: day_offset)
-          %>
-          <th class="text-right"><%= day |> Timex.format!("{WDshort} {D}")%>
+          <% day = Timex.shift(beginning_of_week, days: day_offset) %>
+          <th class="text-right">
+            <%= day |> Timex.format!("{WDshort} {D}")%>
+          </th>
         <% end %>
         <th class="text-right">Total</th>
       </tr>
@@ -29,16 +31,7 @@
       <%= for {project, project_times} <- Enum.group_by(times, &elem(&1, 1)) do %>
         <tr>
           <td><%= link(project.name, to: project_path(@conn, :show, project.slug)) %></td>
-          <%= for day_offset <- 0..6 do %>
-            <%
-              day = Timex.shift(beginning_of_week, days: day_offset)
-              entries =
-                project_times
-                |> Enum.filter(&(elem(&1, 0) == day))
-              hours =
-                entries
-                |> Enum.reduce(0, &(elem(&1, 2) + &2))
-            %>
+          <%= for {day, hours} <- project_dailies(beginning_of_week, project_times) do %>
             <%= if hours == 0 do %>
               <td class="text-right" style="color: #ccc;">
                 <%=
@@ -61,7 +54,7 @@
           <% end %>
           <td class="text-right">
             <strong>
-              <%= Enum.reduce(project_times, 0, &(elem(&1, 2) + &2)) %>
+              <%= project_totals(project_times) %>
             </strong>
           </td>
         </tr>
