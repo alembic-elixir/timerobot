@@ -28,14 +28,7 @@
       <%= for {person, person_times} <- Enum.group_by(times, &elem(&1, 1)) do %>
         <tr>
           <td><%= link(person.name, to: person_path(@conn, :show, person.slug)) %></td>
-          <%= for day_offset <- 0..6 do %>
-            <%
-              day = Timex.shift(beginning_of_week, days: day_offset)
-              hours =
-                person_times
-                |> Enum.filter(&(elem(&1, 0) == day))
-                |> Enum.reduce(0, &(elem(&1, 2) + &2))
-            %>
+          <%= for {day, hours} <- person_dailies(beginning_of_week, person_times) do %>
             <%= if hours == 0 do %>
               <td class="text-right" style="color: #ccc;">
                 <%=
@@ -54,7 +47,7 @@
           <% end %>
           <td class="text-right">
             <strong>
-              <%= Enum.reduce(person_times, 0, &(elem(&1, 2) + &2)) %>
+              <%= person_totals(person_times) %>
             </strong>
           </td>
         </tr>
