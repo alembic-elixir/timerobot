@@ -540,16 +540,6 @@ defmodule Timerobot.Timesheet do
     end)
   end
 
-  def sort_person_entries(id) do
-    get_person!(id).entries
-    |> entries_for_person
-  end
-
-  def sort_project_entries(id) do
-    get_project!(id).entries
-    |> entries_for_project
-  end
-
   def entries_for_project(entries) do
     entries
     |> Enum.group_by(&Timex.beginning_of_week(&1.date), &{&1.person, &1.date, &1.hours})
@@ -571,5 +561,15 @@ defmodule Timerobot.Timesheet do
     |> Enum.sort(fn ({week1, _}, {week2, _}) ->
       week1 >= week2
     end)
+  end
+
+  def sort_person_entries(id) do
+    get_person!(id).entries
+    |> entries_for_person
+  end
+
+  def sort_project_entries(id) do
+    get_project!(id).entries
+    |> entries_for_project
   end
 end

@@ -3,7 +3,7 @@
 <h2>
   <%= @person.name %>
   <%= link "Edit", to: person_path(@conn, :edit, @person.slug), class: "btn btn-success" %>
-  <%= link "New Entry", to: entry_path(@conn, :new), class: "btn btn-success" %>
+  <%= link "New Entry", to: entry_path(@conn, :new, %{"entry" => %{"person_id" => @person.id}}), class: "btn btn-success" %>
 </h2>
 
 <table class="table table-striped">
@@ -66,6 +66,14 @@
           </td>
         </tr>
       <% end %>
+      <tr>
+        <td colspan="8">
+          <strong>Total</strong>
+        </td>
+        <td class="text-right">
+          <%= calculate_totals(times) %>
+        </td>
+      </tr>
     </tbody>
   <% end %>
 </table>
