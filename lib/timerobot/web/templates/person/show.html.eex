@@ -6,16 +6,15 @@
   <%= link "New Entry", to: entry_path(@conn, :new, %{"entry" => %{"person_id" => @person.id}}), class: "btn btn-success" %>
 </h2>
 
-<table class="table table-striped">
-  <%= for {beginning_of_week, times} <- @data do %>
+
+<%= for {beginning_of_week, times} <- @data do %>
+  <table class="table table-striped">
+    <caption>
+      <h4>Week starting
+        <%= beginning_of_week |> Timex.format!("{D} {Mfull} {YYYY}") %>
+      </h4>
+    </caption>
     <thead>
-      <tr>
-        <th colspan="9">
-          <h4>Week starting
-            <%= beginning_of_week |> Timex.format!("{D} {Mfull} {YYYY}") %>
-          </h4>
-        </th>
-      </tr>
       <tr>
         <th>Project</th>
         <%= for day_offset <- 0..6 do %>
@@ -59,6 +58,8 @@
           </td>
         </tr>
       <% end %>
+    </tbody>
+    <tfoot>
       <tr>
         <td colspan="8">
           <strong>Total</strong>
@@ -67,6 +68,6 @@
           <%= calculate_totals(times) %>
         </td>
       </tr>
-    </tbody>
-  <% end %>
-</table>
+    </tfoot>
+  </table>
+<% end %>
