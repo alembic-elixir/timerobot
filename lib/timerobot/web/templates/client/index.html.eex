@@ -6,18 +6,15 @@
   <thead>
     <tr>
       <th>Name</th>
-
-      <th></th>
     </tr>
   </thead>
   <tbody>
-<%= for client <- @clients do %>
-    <tr>
-      <td><%= link(client.name, to: client_path(@conn, :show, client.slug)) %></td>
-
-      <td class="text-right">
-      </td>
-    </tr>
-<% end %>
+    <%= for client <- @clients do %>
+      <tr>
+        <td>
+          <%= link(client.name, to: client_path(@conn, :show, client.slug)) %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

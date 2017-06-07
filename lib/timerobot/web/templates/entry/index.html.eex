@@ -8,22 +8,17 @@
       <th>Date</th>
       <th>Project</th>
       <th>Person</th>
-      <th>Hours</th>
-
-      <th></th>
+      <th class="text-right">Hours</th>
     </tr>
   </thead>
   <tbody>
-<%= for entry <- @entry do %>
-    <tr>
-      <td><%= link(entry.date, to: entry_path(@conn, :show, entry.id)) %></td>
-      <td><%= entry.project.client.name %> / <%= entry.project.name %></td>
-      <td><%= link(entry.person.name, to: person_path(@conn, :show, entry.person.id)) %></td>
-      <td><%= entry.hours %></td>
-
-      <td class="text-right">
-      </td>
-    </tr>
-<% end %>
+    <%= for entry <- @entry do %>
+      <tr>
+        <td><%= link(entry.date, to: entry_path(@conn, :show, entry.id)) %></td>
+        <td><%= entry.project.client.name %> / <%= entry.project.name %></td>
+        <td><%= link(entry.person.name, to: person_path(@conn, :show, entry.person.id)) %></td>
+        <td class="text-right"><%= entry.hours %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

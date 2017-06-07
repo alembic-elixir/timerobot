@@ -10,14 +10,11 @@
     </tr>
   </thead>
   <tbody>
-<%= for project <- @projects do %>
-    <tr>
-      <td><%= project.client.name %></td>
-      <td><%= link(project.name, to: project_path(@conn, :show, project.slug)) %></td>
-
-      <td class="text-right">
-      </td>
-    </tr>
-<% end %>
+    <%= for project <- @projects do %>
+      <tr>
+        <td><%= project.client.name %></td>
+        <td><%= link(project.name, to: project_path(@conn, :show, project.slug)) %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
