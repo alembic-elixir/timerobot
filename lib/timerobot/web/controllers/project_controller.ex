@@ -10,9 +10,17 @@ defmodule Timerobot.Web.ProjectController do
       projects: projects
   end
 
+  def new(conn, %{"project" => project_params}) do
+    do_new conn, Timesheet.change_project(%Project{}, project_params)
+  end
+
   def new(conn, _params) do
+    do_new conn, Timesheet.change_project(%Project{})
+  end
+
+  def do_new(conn, changeset) do
     render conn, "new.html",
-      changeset: Timesheet.change_project(%Project{}),
+      changeset: changeset,
       clients: Timesheet.all_clients_dropdown
   end
 

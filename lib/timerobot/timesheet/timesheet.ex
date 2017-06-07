@@ -242,6 +242,10 @@ defmodule Timerobot.Timesheet do
     project_changeset(project, %{})
   end
 
+  def change_project(%Project{} = project, attrs) do
+    project_changeset(project, attrs)
+  end
+
   defp project_changeset(%Project{} = project, attrs) do
     project
     |> cast(attrs, [:name, :slug, :client_id])
