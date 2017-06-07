@@ -30,7 +30,7 @@
       <%= for {project, project_times} <- Enum.group_by(times, &elem(&1, 1)) do %>
         <tr>
           <td><%= link(project.name, to: project_path(@conn, :show, project.slug)) %></td>
-          <%= for {day, hours} <- project_dailies(beginning_of_week, project_times) do %>
+          <%= for {day, hours} <- daily_hours(beginning_of_week, project_times) do %>
             <%= if hours == 0 do %>
               <td class="text-right" style="color: #ccc;">
                 <%=
@@ -61,9 +61,20 @@
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="8">
+        <td>
           <strong>Total</strong>
         </td>
+        <%= for {_, hours} <- daily_hours(beginning_of_week, times) do %>
+          <%= if hours == 0 do %>
+            <td class="text-right" style="color: #444;">0</td>
+          <% else %>
+            <td class="text-right" style="color: #444;">
+              <%=
+                hours
+              %>
+            </td>
+          <% end %>
+        <% end %>
         <td class="text-right">
           <%= calculate_totals(times) %>
         </td>
