@@ -28,7 +28,7 @@
       <%= for {person, person_times} <- Enum.group_by(times, &elem(&1, 1)) do %>
         <tr>
           <td><%= link(person.name, to: person_path(@conn, :show, person.slug)) %></td>
-          <%= for {day, hours} <- person_dailies(beginning_of_week, person_times) do %>
+          <%= for {day, hours} <- daily_hours(beginning_of_week, person_times) do %>
             <%= if hours == 0 do %>
               <td class="text-right" style="color: #ccc;">
                 <%=
@@ -53,9 +53,20 @@
         </tr>
       <% end %>
       <tr>
-        <td colspan="8">
+        <td>
           <strong>Total</strong>
         </td>
+        <%= for {_, hours} <- daily_hours(beginning_of_week, times) do %>
+          <%= if hours == 0 do %>
+            <td class="text-right" style="color: #444;">0</td>
+          <% else %>
+            <td class="text-right" style="color: #444;">
+              <strong>
+                <%= hours %>
+              </strong>
+            </td>
+          <% end %>
+        <% end %>
         <td class="text-right">
           <%= calculate_totals(times) %>
         </td>
