@@ -13,11 +13,6 @@ defmodule Timerobot.Web.PersonView do
     end)
   end
 
-  def project_totals(project_times) do
-    project_times
-    |> Enum.reduce(0, &(elem(&1, 2) + &2))
-  end
-
   def calculate_totals(times) do
     times
     |> Enum.reduce(0, fn({_date, _entry, hours}, sum) -> sum + hours end)

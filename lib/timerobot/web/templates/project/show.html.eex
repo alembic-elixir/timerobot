@@ -47,7 +47,7 @@
           <% end %>
           <td class="text-right">
             <strong>
-              <%= person_totals(person_times) %>
+              <%= calculate_totals(person_times) %>
             </strong>
           </td>
         </tr>

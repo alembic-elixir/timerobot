@@ -53,7 +53,7 @@
           <% end %>
           <td class="text-right">
             <strong>
-              <%= project_totals(project_times) %>
+              <%= calculate_totals(project_times) %>
             </strong>
           </td>
         </tr>
