@@ -45,9 +45,7 @@
               </td>
             <% else %>
               <td class="text-right" style="color: #444;">
-                <%=
-                  hours
-                %>
+                <%= hours %>
               </td>
             <% end %>
           <% end %>

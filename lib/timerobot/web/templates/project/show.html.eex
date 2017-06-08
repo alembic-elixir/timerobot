@@ -42,7 +42,9 @@
                 %>
               </td>
             <% else %>
-              <td class="text-right" style="color: #444;"><%= hours %></td>
+              <td class="text-right" style="color: #444;">
+                <%= hours %>
+              </td>
             <% end %>
           <% end %>
           <td class="text-right">

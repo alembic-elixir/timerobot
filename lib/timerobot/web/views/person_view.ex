@@ -3,7 +3,7 @@ defmodule Timerobot.Web.PersonView do
 
   def calculate_totals(times) do
     times
-    |> Enum.reduce(0, fn({_date, _entry, hours}, sum) -> sum + hours end)
+    |> Enum.reduce(0, fn({_date, _project, hours}, sum) -> sum + hours end)
   end
 
   def daily_hours(beginning_of_week, times) do
@@ -12,8 +12,8 @@ defmodule Timerobot.Web.PersonView do
       day = Timex.shift(beginning_of_week, days: day_offset)
       hours =
         times
-        |> Enum.filter(fn({date, _entry, _hours}) -> date == day end)
-        |> Enum.reduce(0, fn({_date, _entry, hours}, sum) -> sum + hours end)
+        |> Enum.filter(fn({date, _project, _hours}) -> date == day end)
+        |> Enum.reduce(0, fn({_date, _project, hours}, sum) -> sum + hours end)
       {day, hours}
     end)
   end
