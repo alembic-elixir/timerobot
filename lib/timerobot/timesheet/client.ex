@@ -8,6 +8,7 @@ defmodule Timerobot.Timesheet.Client do
     field :slug, :string
 
     has_many :projects, Project
+    has_many :entries, through: [:projects, :entries]
     timestamps()
   end
 end

@@ -49,8 +49,8 @@ defmodule Timerobot.Timesheet do
   """
   def get_client!(slug) do
     Client
+    |> preload([:projects, entries: [:person, :project]])
     |> Repo.get_by!(slug: slug)
-    |> Repo.preload([:projects])
   end
 
   @doc """
@@ -566,6 +566,11 @@ defmodule Timerobot.Timesheet do
 
   def sort_project_entries(id) do
     get_project!(id).entries
+    |> entries_for_project
+  end
+
+  def sort_client_entries(id) do
+    get_client!(id).entries
     |> entries_for_project
   end
 end
