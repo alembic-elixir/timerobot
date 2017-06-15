@@ -30,7 +30,7 @@
     </caption>
     <thead>
       <tr>
-        <th>Project</th>
+        <th>Person</th>
         <%= for day_offset <- 0..6 do %>
           <%
             day = Timex.shift(beginning_of_week, days: day_offset)
