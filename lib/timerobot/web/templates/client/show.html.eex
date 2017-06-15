@@ -44,7 +44,7 @@
       <%= for {person, hours} <- Enum.group_by(times, &elem(&1, 1)) do %>
         <tr>
           <td><%= link(person.name, to: person_path(@conn, :show, person.slug)) %></td>
-          <%= for {day, hours} <- daily_hours(beginning_of_week, hours) do %>
+          <%= for {_, hours} <- daily_hours(beginning_of_week, hours) do %>
             <%= if hours == 0 do %>
               <td class="text-right" style="color: #ccc;">
                 -
