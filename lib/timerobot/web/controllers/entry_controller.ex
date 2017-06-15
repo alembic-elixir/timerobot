@@ -6,8 +6,10 @@ defmodule Timerobot.Web.EntryController do
 
   def index(conn, _params) do
     entry = Timesheet.list_entry()
+    data = Timesheet.sort_entries()
     render conn, "index.html",
-      entry: entry
+      entry: entry,
+      data: data
   end
 
   def new(conn, %{"entry" => entry_params}) do

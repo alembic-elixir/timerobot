@@ -559,6 +559,12 @@ defmodule Timerobot.Timesheet do
     |> Enum.sort_by(fn {bow, _} -> to_string(bow) end, &>=/2)
   end
 
+  def entry_index_sort(entries) do
+    entries
+    |> Enum.group_by(&Timex.beginning_of_week(&1.date))
+    |> Enum.sort_by(fn {bow, _entries} -> to_string(bow) end, &>=/2)
+  end
+
   def sort_person_entries(id) do
     get_person!(id).entries
     |> entries_for_person
@@ -572,5 +578,11 @@ defmodule Timerobot.Timesheet do
   def sort_client_entries(id) do
     get_client!(id).entries
     |> entries_for_project
+  end
+
+  def sort_entries() do
+    list_entry()
+    |> entry_index_sort
+    # |> IO.inspect
   end
 end
