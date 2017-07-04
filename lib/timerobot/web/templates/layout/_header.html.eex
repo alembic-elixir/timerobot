@@ -1,6 +1,6 @@
 <header id="header" role="banner">
   <nav role="navigation" class="navbar navbar-inverse">
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills pull-left">
       <li class="navlink">
         <%= link "Home", to: page_path(@conn, :index)%>
       </li>
@@ -18,6 +18,11 @@
       </li>
       <li class="navlink">
         <%= link "Report", to: report_path(@conn, :report) %>
+      </li>
+    </ul>
+    <ul class="nav nav-pills pull-right">
+      <li class="navlink">
+        <%= link "Sign in", to: session_path(@conn, :new) %>
       </li>
     </ul>
   </nav>
