@@ -369,6 +369,19 @@ defmodule Timerobot.Timesheet do
     |> validate_required([:name, :slug])
     |> unique_constraint(:name)
     |> unique_constraint(:slug)
+    |> cast(attrs, ~w(password), [])
+    |> validate_length(:password, min: 8, max: 100)
+    |> hash_password
+  end
+
+  defp hash_password(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
+        put_change(changeset,
+                  :encrypted_password,
+                  Comeonin.Bcrypt.hashpwsalt(password))
+        _ -> changeset
+    end
   end
 
   @doc """
