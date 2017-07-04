@@ -17,7 +17,7 @@ defmodule Timerobot.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Timerobot.Application, []},
-     extra_applications: [:logger, :runtime_tools]]
+     extra_applications: [:logger, :runtime_tools, :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
@@ -41,6 +41,7 @@ defmodule Timerobot.Mixfile do
      {:timex_ecto, "~> 3.0"},
      {:slugger, "~> 0.1"},
      {:basic_auth, "~> 2.1"},
+     {:comeonin, "~> 3.0"},
      {:cowboy, "~> 1.0"}]
   end
 
