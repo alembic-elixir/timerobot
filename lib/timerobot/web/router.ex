@@ -28,6 +28,8 @@ defmodule Timerobot.Web.Router do
     resources "/people", PersonController, param: "slug"
     resources "/times", EntryController
 
+    resources "/session", SessionController, only: [:new, :create, :delete]
+
     get "/report", ReportController, :report
   end
 end

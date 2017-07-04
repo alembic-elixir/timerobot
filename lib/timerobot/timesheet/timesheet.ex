@@ -369,7 +369,7 @@ defmodule Timerobot.Timesheet do
     |> validate_required([:name, :slug])
     |> unique_constraint(:name)
     |> unique_constraint(:slug)
-    |> cast(attrs, ~w(password), [])
+    |> cast(attrs, ~w(password)a, [])
     |> validate_length(:password, min: 8, max: 100)
     |> hash_password
   end
