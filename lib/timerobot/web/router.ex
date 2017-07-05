@@ -17,8 +17,14 @@ defmodule Timerobot.Web.Router do
     plug BasicAuth, use_config: {:timerobot, :basic_auth}
   end
 
+  pipeline :with_session do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+    plug Timerobot.CurrentUser
+  end
+
   scope "/", Timerobot.Web do
-    pipe_through :browser
+    pipe_through [:browser, :with_session]
     pipe_through :admin
 
     get "/", PageController, :index
