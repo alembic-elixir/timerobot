@@ -17,6 +17,11 @@ defmodule Timerobot.Web.Router do
     plug BasicAuth, use_config: {:timerobot, :basic_auth}
   end
 
+  pipeline :login_required do
+    plug Guardian.Plug.EnsureAuthenticated,
+        handler: Timerobot.GuardianErrorHandler
+  end
+
   pipeline :with_session do
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
@@ -25,17 +30,20 @@ defmodule Timerobot.Web.Router do
 
   scope "/", Timerobot.Web do
     pipe_through [:browser, :with_session]
-    pipe_through :admin
 
     get "/", PageController, :index
 
-    resources "/clients", ClientController, param: "slug"
-    resources "/projects", ProjectController, param: "slug"
-    resources "/people", PersonController, param: "slug"
-    resources "/times", EntryController
-
     resources "/session", SessionController, only: [:new, :create, :delete]
 
-    get "/report", ReportController, :report
+    scope "/" do
+      pipe_through [:login_required]
+      pipe_through :admin
+      resources "/people", PersonController, param: "slug"
+      resources "/clients", ClientController, param: "slug"
+      resources "/projects", ProjectController, param: "slug"
+      resources "/times", EntryController
+
+      get "/report", ReportController, :report
+    end
   end
 end
