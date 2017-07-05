@@ -27,3 +27,9 @@
 .control-label {
     height: 3rem;
 }
+
+.nav>li a {
+    position: relative;
+    display: block;
+    padding: 15px;
+}

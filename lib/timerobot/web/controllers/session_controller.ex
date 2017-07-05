@@ -18,21 +18,21 @@ defmodule Timerobot.Web.SessionController do
 
     result = cond do
       user && checkpw(password, user.encrypted_password) ->
-        { :ok, login(conn, user)}
+        {:ok, login(conn, user)}
       user ->
-        { :error, :unauthorized, conn}
+        {:error, :unauthorized, conn}
       true -> dummy_checkpw()
-        { :error, :not_found, conn}
+        {:error, :not_found, conn}
     end
 
     case result do
-      { :ok, conn} ->
+      {:ok, conn} ->
         conn
         |> put_flash(:info, "you are now logged in")
         |> redirect(to: page_path(conn, :index))
-      { :error, _reason, conn} ->
+      {:error, _reason, conn} ->
         conn
-        |> put_flash( :error, "Invalid login or password")
+        |> put_flash(:error, "Invalid login or password")
         |> render("new.html")
     end
   end
@@ -40,7 +40,7 @@ defmodule Timerobot.Web.SessionController do
   def delete(conn, _) do
     conn
     |> logout
-    |> put_flash(:info, "goodbye")
+    |> put_flash(:info, "Goodbye")
     |> redirect(to: page_path(conn, :index))
   end
 
