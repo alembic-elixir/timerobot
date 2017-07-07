@@ -25,7 +25,7 @@ defmodule Timerobot.Web.EntryControllerTest do
   test "lists all entries on index", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(entry_path(conn, :index))
     assert html_response(conn, 200) =~ "Entries"
   end
@@ -35,7 +35,7 @@ defmodule Timerobot.Web.EntryControllerTest do
     entry = Timesheet.get_entry!(id)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(entry_path(conn, :show, entry.id))
 
     assert html_response(conn, 200) =~ entry.project.name
@@ -44,7 +44,7 @@ defmodule Timerobot.Web.EntryControllerTest do
   test "renders form for new entry", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(entry_path(conn, :new))
     assert html_response(conn, 200) =~ "New Entry"
   end
@@ -59,7 +59,7 @@ defmodule Timerobot.Web.EntryControllerTest do
 
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> post(entry_path(conn, :create), entry: create_attrs)
 
     assert %{id: id} = redirected_params(conn)
@@ -67,7 +67,7 @@ defmodule Timerobot.Web.EntryControllerTest do
 
     conn =
       build_conn()
-      |> using_basic_auth
+      |> login
       |> get(entry_path(conn, :show, id))
     assert html_response(conn, 200) =~ project.name
   end
@@ -75,7 +75,7 @@ defmodule Timerobot.Web.EntryControllerTest do
   test "does not create entry and renders errors when data is invalid", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> post(entry_path(conn, :create), entry: @invalid_attrs)
     assert html_response(conn, 200) =~ "New Entry"
   end
@@ -84,7 +84,7 @@ defmodule Timerobot.Web.EntryControllerTest do
     entry = fixture(:entry)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(entry_path(conn, :edit, entry))
     assert html_response(conn, 200) =~ "Edit Entry"
   end
@@ -93,7 +93,7 @@ defmodule Timerobot.Web.EntryControllerTest do
     entry = fixture(:entry)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> put(entry_path(conn, :update, entry), entry: @update_attrs)
     assert redirected_to(conn) == entry_path(conn, :show, entry)
   end
@@ -102,18 +102,18 @@ defmodule Timerobot.Web.EntryControllerTest do
     entry = fixture(:entry)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> put(entry_path(conn, :update, entry), entry: @invalid_attrs)
     assert html_response(conn, 200) =~ "Edit Entry"
   end
 
   test "deletes chosen entry", %{conn: conn} do
     entry = fixture(:entry)
-    conn = conn |> using_basic_auth |> delete(entry_path(conn, :delete, entry))
+    conn = conn |> login |> delete(entry_path(conn, :delete, entry))
     assert redirected_to(conn) == entry_path(conn, :index)
-    assert_error_sent 404, fn ->
+    assert_raise Ecto.NoResultsError, fn ->
       build_conn()
-      |> using_basic_auth
+      |> login
       |> get(entry_path(conn, :show, entry))
     end
   end

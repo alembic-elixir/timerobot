@@ -15,7 +15,7 @@ defmodule Timerobot.Web.PersonControllerTest do
   test "lists all entries on index", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(person_path(conn, :index))
     assert html_response(conn, 200) =~ "People"
   end
@@ -23,7 +23,7 @@ defmodule Timerobot.Web.PersonControllerTest do
   test "renders form for new person", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(person_path(conn, :new))
     assert html_response(conn, 200) =~ "New Person"
   end
@@ -31,7 +31,7 @@ defmodule Timerobot.Web.PersonControllerTest do
   test "creates person and redirects to show when data is valid", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> post(person_path(conn, :create), person: @create_attrs)
 
     assert %{slug: slug} = redirected_params(conn)
@@ -39,7 +39,7 @@ defmodule Timerobot.Web.PersonControllerTest do
 
     conn =
       build_conn()
-      |> using_basic_auth
+      |> login
       |> get(person_path(conn, :show, slug))
     assert html_response(conn, 200) =~ @create_attrs["name"]
   end
@@ -47,7 +47,7 @@ defmodule Timerobot.Web.PersonControllerTest do
   test "does not create person and renders errors when data is invalid", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> post(person_path(conn, :create), person: @invalid_attrs)
     assert html_response(conn, 200) =~ "New Person"
   end
@@ -56,7 +56,7 @@ defmodule Timerobot.Web.PersonControllerTest do
     person = fixture(:person)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(person_path(conn, :edit, person.slug))
     assert html_response(conn, 200) =~ "Edit Person"
   end
@@ -65,13 +65,13 @@ defmodule Timerobot.Web.PersonControllerTest do
     person = fixture(:person)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> put(person_path(conn, :update, person.slug), person: @update_attrs)
     assert redirected_to(conn) == person_path(conn, :show, person.slug)
 
     conn =
       build_conn()
-      |> using_basic_auth
+      |> login
       |> get(person_path(conn, :show, person.slug))
     assert html_response(conn, 200) =~ "some updated name"
   end
@@ -80,18 +80,18 @@ defmodule Timerobot.Web.PersonControllerTest do
     person = fixture(:person)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> put(person_path(conn, :update, person.slug), person: @invalid_attrs)
     assert html_response(conn, 200) =~ "Edit Person"
   end
 
   test "deletes chosen person", %{conn: conn} do
     person = fixture(:person)
-    conn = conn |> using_basic_auth |> delete(person_path(conn, :delete, person.slug))
+    conn = conn |> login |> delete(person_path(conn, :delete, person.slug))
     assert redirected_to(conn) == person_path(conn, :index)
-    assert_error_sent 404, fn ->
+    assert_raise Ecto.NoResultsError, fn ->
       build_conn()
-      |> using_basic_auth
+      |> login
       |> get(person_path(conn, :show, person.slug))
     end
   end

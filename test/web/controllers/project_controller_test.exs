@@ -22,7 +22,7 @@ defmodule Timerobot.Web.ProjectControllerTest do
   test "lists all entries on index", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(project_path(conn, :index))
     assert html_response(conn, 200) =~ "Projects"
   end
@@ -30,7 +30,7 @@ defmodule Timerobot.Web.ProjectControllerTest do
   test "renders form for new project", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(project_path(conn, :new))
     assert html_response(conn, 200) =~ "New Project"
   end
@@ -42,7 +42,7 @@ defmodule Timerobot.Web.ProjectControllerTest do
 
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> post(project_path(conn, :create), project: create_attrs)
 
     assert %{slug: slug} = redirected_params(conn)
@@ -50,7 +50,7 @@ defmodule Timerobot.Web.ProjectControllerTest do
 
     conn =
       build_conn()
-      |> using_basic_auth
+      |> login
       |> get(project_path(conn, :show, slug))
     assert html_response(conn, 200) =~ "some name"
   end
@@ -58,7 +58,7 @@ defmodule Timerobot.Web.ProjectControllerTest do
   test "does not create project and renders errors when data is invalid", %{conn: conn} do
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> post(project_path(conn, :create), project: @invalid_attrs)
     assert html_response(conn, 200) =~ "New Project"
   end
@@ -67,7 +67,7 @@ defmodule Timerobot.Web.ProjectControllerTest do
     project = fixture(:project)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> get(project_path(conn, :edit, project.slug))
     assert html_response(conn, 200) =~ "Edit Project"
   end
@@ -76,13 +76,13 @@ defmodule Timerobot.Web.ProjectControllerTest do
     project = fixture(:project)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> put(project_path(conn, :update, project.slug), project: @update_attrs)
     assert redirected_to(conn) == project_path(conn, :show, project.slug)
 
     conn =
       build_conn()
-      |> using_basic_auth
+      |> login
       |> get(project_path(conn, :show, project.slug))
     assert html_response(conn, 200) =~ "some updated name"
   end
@@ -91,18 +91,18 @@ defmodule Timerobot.Web.ProjectControllerTest do
     project = fixture(:project)
     conn =
       conn
-      |> using_basic_auth
+      |> login
       |> put(project_path(conn, :update, project.slug), project: @invalid_attrs)
     assert html_response(conn, 200) =~ "Edit Project"
   end
 
   test "deletes chosen project", %{conn: conn} do
     project = fixture(:project)
-    conn = conn |> using_basic_auth |> delete(project_path(conn, :delete, project.slug))
+    conn = conn |> login |> delete(project_path(conn, :delete, project.slug))
     assert redirected_to(conn) == project_path(conn, :index)
-    assert_error_sent 404, fn ->
+    assert_raise Ecto.NoResultsError, fn ->
       build_conn()
-      |> using_basic_auth
+      |> login
       |> get(project_path(conn, :show, project.slug))
     end
   end

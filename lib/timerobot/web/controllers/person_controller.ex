@@ -5,7 +5,6 @@ defmodule Timerobot.Web.PersonController do
 
   def index(conn, _params) do
     people = Timesheet.list_person()
-    IO.inspect people: people
     render conn, "index.html",
       people: people
   end

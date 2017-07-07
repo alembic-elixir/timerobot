@@ -13,10 +13,6 @@ defmodule Timerobot.Web.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :admin do
-    plug BasicAuth, use_config: {:timerobot, :basic_auth}
-  end
-
   pipeline :login_required do
     plug Guardian.Plug.EnsureAuthenticated,
         handler: Timerobot.GuardianErrorHandler
@@ -36,8 +32,8 @@ defmodule Timerobot.Web.Router do
     resources "/session", SessionController, only: [:new, :create, :delete]
 
     scope "/" do
-      pipe_through [:login_required]
-      pipe_through :admin
+      pipe_through :login_required
+
       resources "/people", PersonController, param: "slug"
       resources "/clients", ClientController, param: "slug"
       resources "/projects", ProjectController, param: "slug"

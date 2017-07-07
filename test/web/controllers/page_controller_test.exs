@@ -4,7 +4,7 @@ defmodule Timerobot.Web.PageControllerTest do
   test "GET /", %{conn: conn} do
     conn =
   conn
-  |> using_basic_auth
+  |> login
   |> get("/")
     assert html_response(conn, 200) =~ "Welcome to Timerobot"
   end

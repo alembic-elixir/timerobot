@@ -24,14 +24,28 @@ defmodule Timerobot.Web.ConnCase do
       # The default endpoint for testing
       @endpoint Timerobot.Web.Endpoint
 
-      # Convenience function for using basic_auth in tests
-      @username Application.get_env(:timerobot, :basic_auth)[:username]
-      @password Application.get_env(:timerobot, :basic_auth)[:password]
+      defp login(conn, username \\ "admin", password \\ "s3cr1t") do
+        person = find_or_create_person(username, password)
 
-      defp using_basic_auth(conn, username \\ @username, password \\ @password) do
-        header_content = "Basic " <> Base.encode64("#{username}:#{password}")
         conn
-        |> put_req_header("authorization", header_content)
+        |> post(
+          session_path(conn, :create), session: %{
+            name: username, password: password
+          })
+        |> recycle()
+      end
+
+      defp find_or_create_person(username, password) do
+        person = Timerobot.Repo.get_by(Timerobot.Timesheet.Person, name: username)
+
+        if person do
+          person
+        else
+          Timerobot.Timesheet.create_person %{
+            "name" => username,
+            "password" => password
+          }
+        end
       end
     end
   end
