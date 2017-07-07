@@ -14,7 +14,7 @@ defmodule Timerobot.Web.SessionController do
   def create(conn, %{"session" =>
                       %{"name" => name,
                         "password" => password }}) do
-    user = Repo.get_by(Person, name: name)
+    user = Repo.get_by(Person, slug: String.downcase(name))
     password = password || ""
 
     result = cond do
