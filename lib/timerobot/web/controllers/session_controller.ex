@@ -15,6 +15,9 @@ defmodule Timerobot.Web.SessionController do
                       %{"name" => name,
                         "password" => password }}) do
     user = Repo.get_by(Person, name: name)
+    password = password || ""
+
+    IO.inspect {password, user.encrypted_password}
 
     result = cond do
       user && checkpw(password, user.encrypted_password) ->
