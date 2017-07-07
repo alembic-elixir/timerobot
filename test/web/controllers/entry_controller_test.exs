@@ -8,9 +8,9 @@ defmodule Timerobot.Web.EntryControllerTest do
   @invalid_attrs %{date: nil, hours: nil, person_id: nil, project_id: nil}
 
   setup do
-    {:ok, _person} = Timesheet.create_person(%{"name" => "a"})
-    {:ok, client} = Timesheet.create_client(%{"name" => "a"})
-    {:ok, _project} = Timesheet.create_project(%{"name" => "a", "client_id" => client.id})
+    {:ok, _person} = Timesheet.create_person(%{"name" => "person", "password" => "password"})
+    {:ok, client} = Timesheet.create_client(%{"name" => "client"})
+    {:ok, _project} = Timesheet.create_project(%{"name" => "project", "client_id" => client.id})
     :ok
   end
 

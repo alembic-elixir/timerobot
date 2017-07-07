@@ -3,7 +3,7 @@ defmodule Timerobot.Web.PersonControllerTest do
 
   alias Timerobot.Timesheet
 
-  @create_attrs %{"name" => "some name"}
+  @create_attrs %{"name" => "some name", "password" => "password"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil, slug: nil}
 
