@@ -14,7 +14,8 @@
           %>
           <th class="text-right"><%= day |> Timex.format!("{WDshort} {D}")%>
         <% end %>
-        <th class="text-right">Total</th>
+        <th class="text-right">Hours</th>
+        <th class="text-right">Days</th>
       </tr>
     </thead>
     <tbody>
@@ -45,6 +46,11 @@
               <%= calculate_totals(person_times) %>
             </strong>
           </td>
+          <td class="text-right">
+            <strong>
+              <%= calculate_days(person_times) %>
+            </strong>
+          </td>
         </tr>
       <% end %>
       <tr>
@@ -64,6 +70,9 @@
         <% end %>
         <td class="text-right">
           <%= calculate_totals(times) %>
+        </td>
+        <td class="text-right">
+          <%= calculate_days(times) %>
         </td>
       </tr>
     </tbody>
