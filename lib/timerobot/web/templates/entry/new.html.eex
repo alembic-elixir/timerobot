@@ -4,6 +4,7 @@
   render "form.html",
     changeset: @changeset,
     people: @people,
+    current_user: @current_user,
     projects: @projects,
     action: entry_path(@conn, :create),
     entry_cancel_path: entry_path(@conn, :index)

@@ -9,7 +9,7 @@
 
   <div class="form-group">
     <%= label f, :person_id, class: "control-label" %>
-    <%= select f, :person_id, @people, prompt: "Select a person",class: "control-label" %>
+    <%= select f, :person_id, @people, selected: @current_user.id, class: "control-label" %>
     <%= error_tag f, :person_id %>
   </div>
 
