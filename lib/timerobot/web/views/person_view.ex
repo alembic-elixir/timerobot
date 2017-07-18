@@ -6,6 +6,13 @@ defmodule Timerobot.Web.PersonView do
     |> Enum.reduce(0, fn({_date, _project, hours}, sum) -> sum + hours end)
   end
 
+  def calculate_days(times) do
+    hours = calculate_totals(times)
+    hours_in_day = 8
+    days = hours/hours_in_day
+    Float.ceil(days * 4) / 4
+  end
+
   def daily_hours(beginning_of_week, times) do
     0..6
     |> Enum.map(fn(day_offset) ->
