@@ -5,6 +5,7 @@
     changeset: @changeset,
     people: @people,
     projects: @projects,
+    current_user: @current_user,
     action: entry_path(@conn, :update, @entry),
     entry_cancel_path: entry_path(@conn, :index)
 %>

@@ -5,7 +5,7 @@ defmodule Timerobot.Web.EntryControllerTest do
 
   @create_attrs %{date: ~D[2010-04-17], hours: 42}
   @update_attrs %{date: ~D[2011-05-18], hours: 43}
-  @invalid_attrs %{date: nil, hours: nil, person_id: nil, project_id: nil}
+  @invalid_attrs %{date: nil, hours: nil}
 
   setup do
     {:ok, _person} = Timesheet.create_person(%{"name" => "person", "password" => "password"})
