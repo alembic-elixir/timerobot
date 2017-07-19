@@ -14,7 +14,7 @@
           <h4><%= client_name %></h4>
         </th>
         <th>
-          <h4>Person</h4>
+          <h4 class="text-center">Person</h4>
         </th>
         <th>
           <h4 class="text-center">Hours</h4>

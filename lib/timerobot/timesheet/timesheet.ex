@@ -597,4 +597,18 @@ defmodule Timerobot.Timesheet do
     list_entry()
     |> entry_index_sort
   end
+
+  def calculate_totals(times) do
+    times
+    |> Enum.reduce(0, fn({_date, _project, hours}, sum) -> sum + hours end)
+  end
+
+  @default_hours_in_day 8
+  @granularity 4
+
+  def calculate_days(times, hours_in_day \\ @default_hours_in_day, granularity \\ @granularity) do
+    hours = calculate_totals(times)
+    days = hours/hours_in_day
+    Float.ceil(days * granularity) / granularity
+  end
 end

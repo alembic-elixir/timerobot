@@ -6,5 +6,4 @@ defmodule Timerobot.Web.ReportView do
     days = hours/hours_in_day
     Float.ceil(days * 4) / 4
   end
-
 end

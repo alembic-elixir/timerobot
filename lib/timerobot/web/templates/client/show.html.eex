@@ -58,12 +58,12 @@
           <% end %>
           <td class="text-right">
             <strong>
-              <%= calculate_totals(hours) %>
+              <%= Timerobot.Timesheet.calculate_totals(hours) %>
             </strong>
           </td>
           <td class="text-right">
             <strong>
-              <%= calculate_days(hours) %>
+              <%= Timerobot.Timesheet.calculate_days(hours) %>
             </strong>
           </td>
         </tr>
@@ -84,10 +84,10 @@
           <% end %>
         <% end %>
         <td class="text-right">
-          <%= calculate_totals(times) %>
+          <%= Timerobot.Timesheet.calculate_totals(times) %>
         </td>
         <td class="text-right">
-          <%= calculate_days(times) %>
+          <%= Timerobot.Timesheet.calculate_days(times) %>
         </td>
       </tr>
     </tbody>
