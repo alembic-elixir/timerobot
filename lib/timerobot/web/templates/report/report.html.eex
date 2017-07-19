@@ -10,8 +10,17 @@
   <%= for {client_name, projects} <- @data do %>
     <thead>
       <tr>
-        <th colspan="3">
+        <th>
           <h4><%= client_name %></h4>
+        </th>
+        <th>
+          <h4>Person</h4>
+        </th>
+        <th>
+          <h4 class="text-center">Hours</h4>
+        </th>
+        <th>
+          <h4 class="text-center">Days</h4>
         </th>
       </tr>
     </thead>
@@ -21,7 +30,8 @@
           <tr>
             <td><%= link(project.name, to: project_path(@conn, :show, project.slug)) %></td>
             <td><%= name %></td>
-            <td class="text-right"><strong><%= hours %></strong></td>
+            <td class="text-center"><strong><%= hours %></strong></td>
+            <td class="text-center"><strong><%= calculate_days(hours) %></strong></td>
           </tr>
         <% end %>
       <% end %>
