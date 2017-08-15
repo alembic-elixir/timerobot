@@ -578,18 +578,18 @@ defmodule Timerobot.Timesheet do
     |> Enum.sort_by(fn {bow, _entries} -> to_string(bow) end, &>=/2)
   end
 
-  def sort_person_entries(id) do
-    get_person!(id).entries
+  def sort_person_entries(slug) do
+    get_person!(slug).entries
     |> entries_for_person
   end
 
-  def sort_project_entries(id) do
-    get_project!(id).entries
+  def sort_project_entries(slug) do
+    get_project!(slug).entries
     |> entries_for_project
   end
 
-  def sort_client_entries(id) do
-    get_client!(id).entries
+  def sort_client_entries(slug) do
+    get_client!(slug).entries
     |> entries_for_project
   end
 
@@ -609,6 +609,27 @@ defmodule Timerobot.Timesheet do
   def calculate_days(times, hours_in_day \\ @default_hours_in_day, granularity \\ @granularity) do
     hours = calculate_totals(times)
     days = hours/hours_in_day
+    Float.ceil(days * granularity) / granularity
+  end
+
+  def total_project_hours(slug) do
+    from(
+      p in "timesheet_project",
+      join: e in "timesheet_entry", on: e.project_id == p.id,
+      join: c in "timesheet_client", on: p.client_id == c.id,
+      where: c.slug == ^slug,
+      group_by: [c.slug, p.name],
+      select: {
+        p.name,
+        sum(e.hours)
+      }
+    )
+    |> Timerobot.Repo.all
+    |> IO.inspect
+  end
+
+  def project_days(count, hours_in_day \\ @default_hours_in_day, granularity \\ @granularity) do
+    days = count/hours_in_day
     Float.ceil(days * granularity) / granularity
   end
 end

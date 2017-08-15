@@ -10,12 +10,16 @@
   <thead>
     <tr>
       <th>Projects</th>
+      <th class="text-right">Total hours</th>
+      <th class="text-right">Total days</th>
     </tr>
   </thead>
   <tbody>
-    <%= for project <- @projects do %>
+    <%= for {project, count} <- @project_list do %>
       <tr>
-        <td><%= link(project.name, to: project_path(@conn, :show, project.slug)) %></td>
+        <td><%= project %></td>
+        <td class="text-right"><%= count %></td>
+        <td class="text-right"><%= Timerobot.Timesheet.project_days(count) %></td>
       </tr>
     <% end %>
   </tbody>
