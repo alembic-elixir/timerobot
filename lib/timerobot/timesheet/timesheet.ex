@@ -612,20 +612,20 @@ defmodule Timerobot.Timesheet do
     Float.ceil(days * granularity) / granularity
   end
 
-  def total_project_hours(slug) do
+  def total_project_hours(client_slug) do
     from(
       p in "timesheet_project",
       join: e in "timesheet_entry", on: e.project_id == p.id,
       join: c in "timesheet_client", on: p.client_id == c.id,
-      where: c.slug == ^slug,
-      group_by: [c.slug, p.name],
+      where: c.slug == ^client_slug,
+      group_by: [c.slug, p.name, p.slug],
       select: {
         p.name,
+        p.slug,
         sum(e.hours)
       }
     )
     |> Timerobot.Repo.all
-    |> IO.inspect
   end
 
   def project_days(count, hours_in_day \\ @default_hours_in_day, granularity \\ @granularity) do

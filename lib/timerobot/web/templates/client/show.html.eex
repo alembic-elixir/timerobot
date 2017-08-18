@@ -15,11 +15,11 @@
     </tr>
   </thead>
   <tbody>
-    <%= for {project, count} <- @project_list do %>
+    <%= for {name, slug, hours} <- @project_list do %>
       <tr>
-        <td><%= project %></td>
-        <td class="text-right"><%= count %></td>
-        <td class="text-right"><%= Timerobot.Timesheet.project_days(count) %></td>
+        <td><%= link name, to: project_path(@conn, :show, slug) %></td>
+        <td class="text-right"><%= hours %></td>
+        <td class="text-right"><%= Timerobot.Timesheet.project_days(hours) %></td>
       </tr>
     <% end %>
   </tbody>
