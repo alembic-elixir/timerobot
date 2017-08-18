@@ -628,6 +628,11 @@ defmodule Timerobot.Timesheet do
     |> Timerobot.Repo.all
   end
 
+  def total_client_hours(project_list) do
+    project_list
+    |> Enum.reduce(0, fn({_name, _slug, hours}, sum) -> sum + hours end)
+  end
+
   def project_days(count, hours_in_day \\ @default_hours_in_day, granularity \\ @granularity) do
     days = count/hours_in_day
     Float.ceil(days * granularity) / granularity

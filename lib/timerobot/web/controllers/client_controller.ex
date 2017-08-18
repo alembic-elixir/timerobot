@@ -30,11 +30,13 @@ defmodule Timerobot.Web.ClientController do
     client = Timesheet.get_client!(slug)
     data = Timesheet.sort_client_entries(slug)
     project_list = Timesheet.total_project_hours(slug)
+    total_client_hours = Timesheet.total_client_hours(project_list)
+
     render conn, "show.html",
       client: client,
       data: data,
       project_list: project_list,
-      projects: client.projects
+      total_client_hours: total_client_hours
   end
 
   def edit(conn, %{"slug" => slug}) do

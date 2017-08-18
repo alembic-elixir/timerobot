@@ -23,6 +23,15 @@
       </tr>
     <% end %>
   </tbody>
+  <tfoot>
+    <th>Total</th>
+    <th class="text-right">
+      <%= @total_client_hours %>
+    </th>
+    <th class="text-right">
+      <%= Timerobot.Timesheet.project_days(@total_client_hours) %>
+    </td>
+  </tfoot>
 </table>
 
 <%= for {beginning_of_week, times} <- @data do %>
@@ -78,7 +87,7 @@
         </td>
         <%= for {_, hours} <- daily_hours(beginning_of_week, times) do %>
           <%= if hours == 0 do %>
-            <td class="text-right" style="color: #444;">0</td>
+            <td class="text-right" style="color: #444;">-</td>
           <% else %>
             <td class="text-right" style="color: #444;">
               <strong>
