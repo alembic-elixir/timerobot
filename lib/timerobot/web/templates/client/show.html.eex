@@ -43,7 +43,7 @@
     </caption>
     <thead>
       <tr>
-        <th>Person</th>
+        <th></th>
         <%= for day_offset <- 0..6 do %>
           <%
             day = Timex.shift(beginning_of_week, days: day_offset)
@@ -81,28 +81,28 @@
           </td>
         </tr>
       <% end %>
+    </tbody>
+    <tfoot>
       <tr>
-        <td>
-          <strong>Total</strong>
-        </td>
+        <th>Total</th>
         <%= for {_, hours} <- daily_hours(beginning_of_week, times) do %>
           <%= if hours == 0 do %>
-            <td class="text-right" style="color: #444;">-</td>
+            <th class="text-right" style="color: #ccc;">
+              -
+            </th>
           <% else %>
-            <td class="text-right" style="color: #444;">
-              <strong>
-                <%= hours %>
-              </strong>
-            </td>
+            <th class="text-right" style="color: #444;">
+              <%= hours %>
+            </th>
           <% end %>
         <% end %>
-        <td class="text-right">
+        <th class="text-right">
           <%= Timerobot.Timesheet.calculate_totals(times) %>
-        </td>
-        <td class="text-right">
+        </th>
+        <th class="text-right">
           <%= Timerobot.Timesheet.calculate_days(times) %>
-        </td>
+        </th>
       </tr>
-    </tbody>
+    </tfoot>
   </table>
 <% end %>
