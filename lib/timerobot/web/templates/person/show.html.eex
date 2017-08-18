@@ -64,7 +64,7 @@
       <% end %>
     </tbody>
     <tfoot>
-      <tr>
+      <tr class="warning">
         <th>Total</th>
         <%= for {_, hours} <- daily_hours(beginning_of_week, times) do %>
           <%= if hours == 0 do %>

@@ -54,8 +54,8 @@
         </tr>
       <% end %>
     </tbody>
-    <thead>
-      <tr>
+    <tfoot>
+      <tr class="warning">
         <th>Total</th>
         <%= for {_, hours} <- daily_hours(beginning_of_week, times) do %>
           <%= if hours == 0 do %>
@@ -75,6 +75,6 @@
           <%= calculate_days(times) %>
         </th>
       </tr>
-    </thead>
+    </tfoot>
   </table>
 <% end %>
