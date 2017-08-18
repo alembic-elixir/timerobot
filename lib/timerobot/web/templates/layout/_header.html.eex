@@ -25,7 +25,7 @@
         <li class="navlink">
           <%= link "Sign out", to: session_path(@conn, :delete,
                                                 @current_user),
-                                                method: "delete" %>
+                                                method: :delete %>
         </li>
       <% else %>
         <li class="navlink">

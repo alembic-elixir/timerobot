@@ -17,21 +17,10 @@ config :timerobot, Timerobot.Web.Endpoint,
   pubsub: [name: Timerobot.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
-# Configure a rudimentary authorisation
-config :timerobot, basic_auth: [
-  username: "admin",
-  password: System.get_env("ADMIN_PASSWORD") || "admin",
-  realm: "Admin"
-]
-
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
-
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
 
 config :guardian, Guardian,
   issuer: "Timerobot.#{Mix.env}",
@@ -39,3 +28,7 @@ config :guardian, Guardian,
   verify_issuer: true,
   serializer: Timerobot.GuardianSerializer,
   secret_key: to_string(Mix.env) <> "QBwlWJJH5a3ZjywH8vlBjfL7pwJl2IhiXUeBHcC3DL/msE5udhhBcIqInBEJaHMU"
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env}.exs"

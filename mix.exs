@@ -28,20 +28,20 @@ defmodule Timerobot.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.3.0-rc", override: true},
+    [{:phoenix, "~> 1.3"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.2"},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.6"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:phoenix_html, "~> 2.9.0"},
+     {:phoenix_live_reload, "~> 1.1", only: :dev},
      {:gettext, "~> 0.11"},
      {:absinthe_plug, "~> 1.1"},
      {:poison, "~> 3.0"},
-     {:timex, "~> 3.0"},
+     {:timex, "~> 3.1"},
      {:timex_ecto, "~> 3.0"},
-     {:slugger, "~> 0.1"},
-     {:basic_auth, "~> 2.1"},
-     {:comeonin, "~> 3.0"},
+     {:slugger, "~> 0.2"},
+     {:comeonin, "~> 4.0"},
+     {:bcrypt_elixir, "~> 0.12"},
      {:guardian, "~> 0.14"},
      {:cowboy, "~> 1.0"}]
   end
